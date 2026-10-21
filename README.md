@@ -6,4 +6,3 @@ Instagram: [@galacticpigeon23314](https://www.instagram.com/galacticpigeon23314/
 
 hopefully the website actually finishes soon :)
 
-test
