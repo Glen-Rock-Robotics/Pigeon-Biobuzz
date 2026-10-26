@@ -1,25 +1,27 @@
-package org.firstinspires.ftc.teamcode.robot;
+package org.firstinspires.ftc.teamcode.config.robot;
 
 //import com.acmerobotics.dashboard.FtcDashboard;
 //import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 //import com.bylazar.telemetry.PanelsTelemetry;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.subsystems.*;
+
+import org.firstinspires.ftc.teamcode.config.subsystems.*;
 
 public class Robot {
-    public final HardwareMap hardwareMap;
+    //public final HardwareMap hardwareMap;
+
     //public final Telemetry telemetry;
 //    public final Drivetrain drivetrain;
 //    public final Intake intake;
-//    public final Flywheel flywheel;
+    public final Flywheel flywheel;
 //    public final Blocker blocker;
 //    public final Turret turret;
 //    public final TapeSensor tapeSensor;
 
-    public Robot(OpMode opMode) {
-        hardwareMap = opMode.hardwareMap;
+    public Robot(HardwareMap hardwareMap) {
+        //hardwareMap = opMode.hardwareMap;
+
+
 //        telemetry = new MultipleTelemetry(
 //                opMode.telemetry,
 //                FtcDashboard.getInstance().getTelemetry(),
@@ -28,9 +30,15 @@ public class Robot {
 
 //        drivetrain = new Drivetrain(this);
 //        intake = new Intake(this);
-//        flywheel = new Flywheel(this);
+        flywheel = new Flywheel(hardwareMap);
 //        blocker = new Blocker(this);
 //        turret = new Turret(this);
 //        tapeSensor = new TapeSensor(this);
+    }
+
+    public void periodic(){
+
+        //follower.update();
+        flywheel.periodic();
     }
 }
