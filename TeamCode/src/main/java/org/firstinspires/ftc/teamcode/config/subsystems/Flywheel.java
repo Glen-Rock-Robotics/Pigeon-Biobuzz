@@ -44,7 +44,7 @@ public class Flywheel {
     public void setTarget(double velocity) {
         targetSpeed = velocity;
     }
-    public void incrementTarget(double boost){targetSpeed += boost;}
+    public void adjustTarget(double boost){targetSpeed += boost;}
 
     public double getTarget() {
         return targetSpeed;

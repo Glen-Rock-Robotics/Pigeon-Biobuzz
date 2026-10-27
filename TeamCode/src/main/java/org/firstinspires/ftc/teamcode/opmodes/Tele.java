@@ -38,8 +38,8 @@ public class Tele extends CommandOpMode {
         if(gamepad1.rightBumperWasPressed()) robot.flywheel.activate();
         if(gamepad1.leftBumperWasPressed()) robot.flywheel.deactivate();
 
-        if(gamepad1.dpadUpWasPressed()) robot.flywheel.incrementTarget(100);
-        if(gamepad1.dpadDownWasPressed()) robot.flywheel.incrementTarget(-100);
+        if(gamepad1.dpadUpWasPressed()) robot.flywheel.adjustTarget(100);
+        if(gamepad1.dpadDownWasPressed()) robot.flywheel.adjustTarget(-100);
 
 
         telemetry.addData("shooter speed", robot.flywheel.getVelocity());
