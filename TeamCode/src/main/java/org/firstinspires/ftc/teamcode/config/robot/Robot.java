@@ -19,12 +19,9 @@ public class Robot {
 //    public final Drivetrain drivetrain;
 //    public final Intake intake;
     public final Flywheel flywheel;
-    public final Follower follower;
+    //public final Follower follower;
 
     private final List<LynxModule> hubs;
-//    public final Blocker blocker;
-//    public final Turret turret;
-//    public final TapeSensor tapeSensor;
 
     public Robot(HardwareMap hardwareMap) {
 
@@ -36,7 +33,7 @@ public class Robot {
 //        );
 
         flywheel = new Flywheel(hardwareMap);
-        follower = Constants.create(hardwareMap);
+        //follower = Constants.create(hardwareMap);
 
         hubs = hardwareMap.getAll(LynxModule.class);
         for (LynxModule hub : hubs) {
