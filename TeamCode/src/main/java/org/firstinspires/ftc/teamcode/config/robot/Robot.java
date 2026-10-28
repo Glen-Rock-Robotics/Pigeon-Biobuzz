@@ -17,7 +17,7 @@ public class Robot {
 
     //public final Telemetry telemetry;
 //    public final Drivetrain drivetrain;
-//    public final Intake intake;
+    public final Intake intake;
     public final Flywheel flywheel;
     //public final Follower follower;
 
@@ -33,6 +33,7 @@ public class Robot {
 //        );
 
         flywheel = new Flywheel(hardwareMap);
+        intake = new Intake(hardwareMap);
         //follower = Constants.create(hardwareMap);
 
         hubs = hardwareMap.getAll(LynxModule.class);

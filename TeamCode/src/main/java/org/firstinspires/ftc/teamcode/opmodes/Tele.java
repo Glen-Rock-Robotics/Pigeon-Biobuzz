@@ -2,9 +2,12 @@ package org.firstinspires.ftc.teamcode.opmodes;
 
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
 import org.firstinspires.ftc.teamcode.config.CommandOpMode;
 import org.firstinspires.ftc.teamcode.config.robot.Robot;
 
+@TeleOp
 public class Tele extends CommandOpMode {
 
     Robot robot;
@@ -44,9 +47,18 @@ public class Tele extends CommandOpMode {
         if(gamepad1.rightBumperWasPressed()) robot.flywheel.activate();
         if(gamepad1.leftBumperWasPressed()) robot.flywheel.deactivate();
 
-        if(gamepad1.dpadUpWasPressed()) robot.flywheel.adjustTarget(100);
-        if(gamepad1.dpadDownWasPressed()) robot.flywheel.adjustTarget(-100);
+        if(gamepad1.rightTriggerWasPressed()) robot.intake.startIntake();
+        if(gamepad1.rightTriggerWasReleased()) robot.intake.stopIntake();
 
+        if(gamepad1.leftTriggerWasPressed()) robot.intake.reverseIntake();
+        if(gamepad1.leftTriggerWasReleased()) robot.intake.stopIntake();
+
+
+        if(gamepad1.dpadUpWasPressed()) robot.flywheel.kP += 0.0001;//robot.flywheel.adjustTarget(100);
+        if(gamepad1.dpadDownWasPressed()) robot.flywheel.kP -= 0.0001;//robot.flywheel.adjustTarget(-100);
+
+        if(gamepad1.dpadRightWasPressed()) robot.flywheel.kV += 0.0001;//robot.flywheel.adjustTarget(100);
+        if(gamepad1.dpadLeftWasPressed()) robot.flywheel.kV -= 0.0001;
 
         telemetry.addData("shooter speed", robot.flywheel.getVelocity());
         telemetry.addData("shooter target", robot.flywheel.getTarget());

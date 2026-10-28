@@ -16,7 +16,7 @@ public class Intake {
 
     public Intake(HardwareMap hardwareMap) {
         intake = hardwareMap.get(DcMotor.class, "intake");
-        flower = hardwareMap.get(Servo.class, "flower");
+        //flower = hardwareMap.get(Servo.class, "flower");
     }
 
     public void activateFlower(){

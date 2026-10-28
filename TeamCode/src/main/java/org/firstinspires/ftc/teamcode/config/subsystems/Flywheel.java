@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.config.subsystems;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -11,9 +12,9 @@ public class Flywheel {
     private DcMotorEx shooter;
 
     private boolean shooterOn = false;
-    private double targetSpeed = 1500;
+    private double targetSpeed = 1620;
 
-    public static double kS = 0, kV = 0, kP = 0;
+    public static double kS = 0.03, kV = 0.0004, kP = 0.0064;
     //kS stands for "static." It's the greatest power you can give the flywheel motor(s) without it moving. So it should be a really small number below like 0.05 or something. You should increase it until it begins to move and then decrease it until it stops moving again.
     //kV is the next number you tune. Pick a velocity like 1500 or something and then increase kV until it gets there.
     //Tune P. Send a ball through the launcher and increase P until it doesn't overshoot past the target velocity in the recovery phase. Keep increasing though because unless you see overshoot you're fine.
@@ -28,6 +29,7 @@ public class Flywheel {
     public static final Interpolation2D closeInterpolation = new BilinearInterpolation(xs, ys, closeVelocities);
     public Flywheel(HardwareMap hardwareMap) {
         shooter = hardwareMap.get(DcMotorEx.class, "shooter");
+        shooter.setDirection(DcMotor.Direction.REVERSE);
     }
 
     public void deactivate() {
