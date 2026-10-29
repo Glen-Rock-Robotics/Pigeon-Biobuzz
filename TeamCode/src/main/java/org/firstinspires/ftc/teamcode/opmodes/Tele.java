@@ -54,11 +54,14 @@ public class Tele extends CommandOpMode {
         if(gamepad1.leftTriggerWasReleased()) robot.intake.stopIntake();
 
 
-        if(gamepad1.dpadUpWasPressed()) robot.flywheel.kP += 0.0001;//robot.flywheel.adjustTarget(100);
-        if(gamepad1.dpadDownWasPressed()) robot.flywheel.kP -= 0.0001;//robot.flywheel.adjustTarget(-100);
+        if(gamepad1.crossWasPressed())robot.intake.activateBlocker();
+        if(gamepad1.triangleWasPressed())robot.intake.deactivateBlocker();
 
-        if(gamepad1.dpadRightWasPressed()) robot.flywheel.kV += 0.0001;//robot.flywheel.adjustTarget(100);
-        if(gamepad1.dpadLeftWasPressed()) robot.flywheel.kV -= 0.0001;
+//        if(gamepad1.dpadUpWasPressed()) robot.flywheel.kP += 0.0001;//robot.flywheel.adjustTarget(100);
+//        if(gamepad1.dpadDownWasPressed()) robot.flywheel.kP -= 0.0001;//robot.flywheel.adjustTarget(-100);
+//
+//        if(gamepad1.dpadRightWasPressed()) robot.flywheel.kV += 0.0001;//robot.flywheel.adjustTarget(100);
+//        if(gamepad1.dpadLeftWasPressed()) robot.flywheel.kV -= 0.0001;
 
         telemetry.addData("shooter speed", robot.flywheel.getVelocity());
         telemetry.addData("shooter target", robot.flywheel.getTarget());
