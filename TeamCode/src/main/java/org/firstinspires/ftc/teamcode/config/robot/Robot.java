@@ -16,7 +16,7 @@ public class Robot {
     //public final HardwareMap hardwareMap;
 
     //public final Telemetry telemetry;
-//    public final Drivetrain drivetrain;
+    public final Drivetrain drivetrain;
     public final Intake intake;
     public final Flywheel flywheel;
     public final Follower follower;
@@ -36,18 +36,20 @@ public class Robot {
         intake = new Intake(hardwareMap);
         follower = Constants.create(hardwareMap);
 
+        drivetrain = new Drivetrain(hardwareMap);
+
         hubs = hardwareMap.getAll(LynxModule.class);
         for (LynxModule hub : hubs) {
             hub.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
 
-        periodic();
+        //periodic();
     }
 
     public void periodic(){
 
         //follower.update();
         flywheel.periodic();
-        //drivetrain.periodic();
+        drivetrain.periodic();
     }
 }

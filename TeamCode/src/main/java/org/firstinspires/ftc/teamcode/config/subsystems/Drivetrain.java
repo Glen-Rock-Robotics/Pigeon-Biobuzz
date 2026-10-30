@@ -22,9 +22,9 @@ public class Drivetrain {
 
     Controller headingController = Controller.pid(1.75, 0, 0.09); //TODO: tune PID values
 
-    public Drivetrain(HardwareMap hardwareMap, Pose start){
+    public Drivetrain(HardwareMap hardwareMap/*, Pose start */){
         follower = Constants.create(hardwareMap);
-        follower.setPose(start);
+        //follower.setPose(start);
 
         frontLeft = hardwareMap.get(DcMotorEx.class, "frontLeft");
         frontRight = hardwareMap.get(DcMotorEx.class, "frontRight");
@@ -47,7 +47,15 @@ public class Drivetrain {
 
 
 
-    public void startDrive(){follower.manual();}
+    public void startDrive(double forward, double lateral, double turn){
+        //follower.manual(forward, lateral, turn);
+
+        frontLeft.setPower(forward + lateral + turn);
+        backLeft.setPower(forward - lateral + turn);
+        frontRight.setPower(forward - lateral - turn);
+        backRight.setPower(forward + lateral - turn);
+
+    }
 
     public void arcadeDrive(double forward, double strafe, double turn/*, Alliance alliance*/) {
         double headingRadians = follower.pose().heading();
@@ -79,6 +87,10 @@ public class Drivetrain {
         frontRight.setPower((y - x - turn) / denominator);
         backLeft.setPower((y - x + turn) / denominator);
         backRight.setPower((y + x - turn) / denominator);
+    }
+
+    public void periodic(){
+
     }
 
 }
