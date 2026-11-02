@@ -81,8 +81,8 @@ public class Robot {
                 instant(flywheel::activate),
                 waitMs(300), //TODO: tune waiting time
                 parallel(
-                        instant(() -> intake.unblock()),
-                        intake.start()
+                        instant(intake::unblock),
+                        instant(intake::start)
                 )
         );
     }
@@ -90,8 +90,8 @@ public class Robot {
     public Command unshoot(){
         return parallel(
                 instant(flywheel::deactivate),
-                instant(() -> intake.block()),
-                intake.stop()
+                instant(intake::block),
+                instant(intake::stop)
         );
     }
 

@@ -47,10 +47,10 @@ public class Intake {
     }
 
     public void block(){
-        blocker.setPosition(0.5);
+        blocker.setPosition(0.2);
     }
 
     public void unblock(){
-        blocker.setPosition(0.2);
+        blocker.setPosition(0.5);
     }
 }

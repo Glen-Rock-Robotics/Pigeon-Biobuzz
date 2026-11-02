@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
+import static com.pedropathing.ivy.commands.Commands.instant;
+import static com.pedropathing.ivy.commands.Commands.waitMs;
 import static com.pedropathing.ivy.groups.Groups.parallel;
+import static com.pedropathing.ivy.groups.Groups.sequential;
 import static com.pedropathing.ivy.pedro.PedroCommands.follow;
 import static com.pedropathing.ivy.pedro.PedroCommands.hold;
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
@@ -75,7 +78,20 @@ public class Tele extends CommandOpMode {
         //robot.flywheel.forPose(robot.follower.pose(), robot.shootTarget);
 
 
-        if(gamepad2.rightTriggerWasPressed()) robot.shoot().schedule();
+        if(gamepad2.rightTriggerWasPressed()) schedule(
+                sequential(
+                        parallel(
+                                instant(() -> robot.flywheel.activate()),
+                                instant(() -> robot.intake.unblock())
+                        ),
+
+                        waitMs(300), //TODO: tune waiting time
+                        parallel(
+                                instant(robot.intake::unblock),
+                                instant(robot.intake::start)
+                        )
+                )
+        );
         if(gamepad2.rightTriggerWasReleased()) robot.unshoot().schedule();
 
         if(gamepad2.rightBumperWasPressed()) schedule(
