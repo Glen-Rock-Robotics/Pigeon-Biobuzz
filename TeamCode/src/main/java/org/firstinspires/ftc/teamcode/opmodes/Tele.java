@@ -1,7 +1,11 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
+import static com.pedropathing.ivy.groups.Groups.parallel;
+import static com.pedropathing.ivy.pedro.PedroCommands.follow;
+import static com.pedropathing.ivy.pedro.PedroCommands.hold;
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 
+import com.pedropathing.math.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.config.CommandOpMode;
@@ -49,21 +53,38 @@ public class Tele extends CommandOpMode {
         if(gamepad1.rightBumperWasPressed()) robot.flywheel.activate();
         if(gamepad1.leftBumperWasPressed()) robot.flywheel.deactivate();
 
-        if(gamepad1.rightTriggerWasPressed()) robot.intake.startIntake();
-        if(gamepad1.rightTriggerWasReleased()) robot.intake.stopIntake();
+        if(gamepad1.rightTriggerWasPressed()) robot.intake.start().schedule();
+        if(gamepad1.rightTriggerWasReleased()) robot.intake.stop().schedule();
 
-        if(gamepad1.leftTriggerWasPressed()) robot.intake.reverseIntake();
-        if(gamepad1.leftTriggerWasReleased()) robot.intake.stopIntake();
+        if(gamepad1.leftTriggerWasPressed()) robot.intake.reverse().schedule();
+        if(gamepad1.leftTriggerWasReleased()) robot.intake.stop().schedule();
 
 
-        if(gamepad1.crossWasPressed())robot.intake.activateBlocker();
-        if(gamepad1.triangleWasPressed())robot.intake.deactivateBlocker();
+        if(gamepad1.crossWasPressed())robot.intake.block();
+        if(gamepad1.triangleWasPressed())robot.intake.unblock();
 
 //        if(gamepad1.dpadUpWasPressed()) robot.flywheel.kP += 0.0001;//robot.flywheel.adjustTarget(100);
 //        if(gamepad1.dpadDownWasPressed()) robot.flywheel.kP -= 0.0001;//robot.flywheel.adjustTarget(-100);
 //
 //        if(gamepad1.dpadRightWasPressed()) robot.flywheel.kV += 0.0001;//robot.flywheel.adjustTarget(100);
 //        if(gamepad1.dpadLeftWasPressed()) robot.flywheel.kV -= 0.0001;
+
+        if(gamepad1.dpadUpWasPressed()) robot.flywheel.adjustTarget(10);
+        if(gamepad1.dpadDownWasPressed()) robot.flywheel.adjustTarget(-10);
+
+        //robot.flywheel.forPose(robot.follower.pose(), robot.shootTarget);
+
+
+        if(gamepad2.rightTriggerWasPressed()) robot.shoot().schedule();
+        if(gamepad2.rightTriggerWasReleased()) robot.unshoot().schedule();
+
+        if(gamepad2.rightBumperWasPressed()) schedule(
+            parallel(
+                robot.drivetrain.faceHive(),
+                robot.shoot()
+            )
+        );
+        if(gamepad2.rightBumperWasReleased()) robot.unshoot().schedule();
 
         telemetry.addData("shooter speed", robot.flywheel.getVelocity());
         telemetry.addData("shooter target", robot.flywheel.getTarget());
@@ -77,7 +98,7 @@ public class Tele extends CommandOpMode {
 
     @Override
     public void stop() {
-        //robot.saveEnd();
+        robot.startPose = robot.follower.pose();
     }
 
 

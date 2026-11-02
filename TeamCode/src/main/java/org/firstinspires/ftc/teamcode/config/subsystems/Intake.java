@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.config.subsystems;
 
+import static com.pedropathing.ivy.commands.Commands.instant;
+
+import com.pedropathing.ivy.Command;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -21,36 +24,33 @@ public class Intake {
         //flower = hardwareMap.get(Servo.class, "flowerServo");
     }
 
-    public void activateFlower(){
+    public void flower(){
         flower.setPosition(.3);
         flowerEngaged = true;
     }
 
-    public void deactivateFlower(){
+    public void unflower(){
         flower.setPosition(.5);
         flowerEngaged = false;
     }
 
-    public void startIntake(){
-        intake.setPower(1);
-        intakeOn = true;
+    public Command start(){
+        return instant(() -> intake.setPower(1));
     }
 
-    public void stopIntake(){
-        intake.setPower(0);
-        intakeOn = false;
+    public Command stop(){
+        return instant(() -> intake.setPower(0));
     }
 
-    public void reverseIntake(){
-        intake.setPower(-1);
-        intakeOn = true;
+    public Command reverse(){
+        return instant(() -> intake.setPower(-1));
     }
 
-    public void deactivateBlocker(){
+    public void block(){
         blocker.setPosition(0.5);
     }
 
-    public void activateBlocker(){
+    public void unblock(){
         blocker.setPosition(0.2);
     }
 }

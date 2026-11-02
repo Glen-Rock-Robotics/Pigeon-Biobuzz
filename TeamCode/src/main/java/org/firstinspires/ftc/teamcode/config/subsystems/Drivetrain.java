@@ -1,9 +1,12 @@
 package org.firstinspires.ftc.teamcode.config.subsystems;
 
 
+import static com.pedropathing.ivy.pedro.PedroCommands.hold;
+
 import com.pedropathing.controllers.Controller;
 import com.pedropathing.controllers.PIDController;
 import com.pedropathing.follower.Follower;
+import com.pedropathing.ivy.Command;
 import com.pedropathing.math.Pose;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -45,7 +48,42 @@ public class Drivetrain {
         return Math.signum(raw) * Math.pow(raw, 2);
     }
 
+    public double autoAlign(){
 
+        double x = follower.pose().x();
+        double y = follower.pose().y();
+        double botAngle = Math.toDegrees(follower.pose().heading());
+
+        double aimPosX;
+        double aimPosY;
+
+//        if(goalColor == GoalColor.BLUE_GOAL){
+//            aimPosX = 0;
+//            aimPosY = 144;
+//        }else{
+            aimPosX = 144;
+            aimPosY = 144; //TODO: change to right position
+        //}
+
+        double aimAngle = Math.toDegrees(Math.atan2(aimPosY - y, aimPosX - x));
+
+        if(aimAngle < 0) aimAngle += 360;   // ensure 0–360
+
+        double diff = aimAngle - botAngle;
+
+        if(diff > 180) diff -= 360;
+        if(diff < -180) diff += 360;
+
+        if(diff > 160){
+            return 160;
+        }
+
+        if(diff < -110){
+            return -110;
+        }
+        //TODO: convert algorithm into radians
+        return diff;
+    }
 
     public void startDrive(double forward, double lateral, double turn){
         //follower.manual(forward, lateral, turn);
@@ -87,6 +125,15 @@ public class Drivetrain {
         frontRight.setPower((y - x - turn) / denominator);
         backLeft.setPower((y - x + turn) / denominator);
         backRight.setPower((y + x - turn) / denominator);
+    }
+
+
+    public Command turnTo(double targetHeading){
+        return hold(follower, new Pose(follower.pose().x(), follower.pose().y(), targetHeading));
+    }
+
+    public Command faceHive(){
+        return turnTo(headingTargetRadians);
     }
 
     public void periodic(){

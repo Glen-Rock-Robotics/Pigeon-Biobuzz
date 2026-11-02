@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.config.subsystems;
 
+import com.pedropathing.math.Pose;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -21,12 +22,12 @@ public class Flywheel {
 
     private static final double[] xs = {44, 72, 100};
     private static final double[] ys = {10, 38, 66};
-    private static final double[][] closeVelocities = {
+    private static final double[][] velocities = {
             {1200, 1200, 1275},
             {1275, 1275, 1350},
             {1325, 1360, 1400}
     };
-    public static final Interpolation2D closeInterpolation = new BilinearInterpolation(xs, ys, closeVelocities);
+    public static final Interpolation2D velocityInterpolation = new BilinearInterpolation(xs, ys, velocities);
     public Flywheel(HardwareMap hardwareMap) {
         shooter = hardwareMap.get(DcMotorEx.class, "shooter");
         shooter.setDirection(DcMotor.Direction.REVERSE);
@@ -42,6 +43,17 @@ public class Flywheel {
     }
 
 
+    public void forPose(Pose current, Pose target/*, boolean close*/) {
+        double xDistance = Math.abs(target.x()-current.x());
+        double yDistance = Math.abs(target.y()-current.y());
+
+        //if (close)
+            setTarget(velocityInterpolation.interpolate(xDistance, yDistance));
+        //else
+        //    setTarget(1550);
+    }
+
+
 
     public void setTarget(double velocity) {
         targetSpeed = velocity;
@@ -50,6 +62,10 @@ public class Flywheel {
 
     public double getTarget() {
         return targetSpeed;
+    }
+
+    public boolean atTarget() {
+        return getVelocity() > getTarget() - 20;
     }
 
     public double getVelocity() {
