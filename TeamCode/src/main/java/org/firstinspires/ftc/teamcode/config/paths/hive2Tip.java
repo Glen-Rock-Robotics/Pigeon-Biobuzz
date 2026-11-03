@@ -13,6 +13,7 @@ public class hive2Tip {
     //private final Follower follower;
 
     public static final PoseFactory poseFactory = PoseFactory.degrees();
+    ///HEADING IS NOW IN DEGREES
 
     public static final Pose startPose = poseFactory.of(24, 24, 0);
     public static final Pose scorePose = poseFactory.of(48, 48, 90);
