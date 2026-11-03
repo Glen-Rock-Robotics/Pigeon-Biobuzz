@@ -57,13 +57,16 @@ public class Drivetrain {
         double aimPosX;
         double aimPosY;
 
-//        if(goalColor == GoalColor.BLUE_GOAL){
-//            aimPosX = 0;
-//            aimPosY = 144;
-//        }else{
-            aimPosX = 144;
-            aimPosY = 144; //TODO: change to right position
-        //}
+        if(x > 48 && x < 67){
+            aimPosX = x;
+            aimPosY = 60;
+        }else if(x < 48){
+            aimPosX = 67;
+            aimPosY = 50 + 5/24  * x;
+        }else{
+            aimPosX = 48;
+            aimPosY = 67 + (77/48) * x;
+        }
 
         double aimAngle = Math.toDegrees(Math.atan2(aimPosY - y, aimPosX - x));
 
@@ -74,15 +77,31 @@ public class Drivetrain {
         if(diff > 180) diff -= 360;
         if(diff < -180) diff += 360;
 
-        if(diff > 160){
-            return 160;
-        }
-
-        if(diff < -110){
-            return -110;
-        }
         //TODO: convert algorithm into radians
         return diff;
+    }
+
+    public double distance(){
+
+        double x = follower.pose().x();
+        double y = follower.pose().y();
+        double botAngle = Math.toDegrees(follower.pose().heading());
+
+        double aimPosX;
+        double aimPosY;
+
+        if(x > 48 && x < 67){
+            aimPosX = x;
+            aimPosY = 60;
+        }else if(x < 48){
+            aimPosX = 67;
+            aimPosY = 50 + 5/24  * x;
+        }else{
+            aimPosX = 48;
+            aimPosY = 67 + (77/48) * x;
+        }
+
+       return Math.pow(x - aimPosX, 2) + Math.pow(y - aimPosY, 2);
     }
 
     public void startDrive(double forward, double lateral, double turn){
