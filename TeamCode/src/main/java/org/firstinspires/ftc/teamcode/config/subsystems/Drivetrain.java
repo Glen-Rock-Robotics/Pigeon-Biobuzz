@@ -90,16 +90,28 @@ public class Drivetrain {
 
         double aimPosX;
         double aimPosY;
-
-        if(x > 48 && x < 67){
-            aimPosX = x;
-            aimPosY = 60;
-        }else if(x < 48){
-            aimPosX = 67;
-            aimPosY = 50 + 5/24  * x;
+        if(y < 72) {
+            if (x > 48 && x < 67) {
+                aimPosX = x;
+                aimPosY = 60;
+            } else if (x < 48) {
+                aimPosX = 67;
+                aimPosY = 50 + 5 / 24 * x;
+            } else {
+                aimPosX = 48;
+                aimPosY = 67 + (77 / 48) * x;
+            }
         }else{
-            aimPosX = 48;
-            aimPosY = 67 + (77/48) * x;
+            if (x > 48 && x < 67) {
+                aimPosX = x;
+                aimPosY = 80;
+            } else if (x < 48) {
+                aimPosX = 67;
+                aimPosY = 90 - 5 / 24 * x;
+            } else {
+                aimPosX = 48;
+                aimPosY = 90 - (77 / 48) * x;
+            }
         }
 
        return Math.pow(x - aimPosX, 2) + Math.pow(y - aimPosY, 2);
