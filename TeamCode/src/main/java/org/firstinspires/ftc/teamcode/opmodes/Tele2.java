@@ -18,7 +18,7 @@ public class Tele2 extends CommandOpMode {
     @Override
     public void init() {
         robot = new Robot(hardwareMap);
-        //r.f.setStartingPose(defaultPose);
+        robot.drivetrain.follower.setPose(robot.startPose);
 
         //multipleTelemetry = new MultipleTelemetry(FtcDashboard.getInstance().getTelemetry(), telemetry);
 
@@ -74,10 +74,17 @@ public class Tele2 extends CommandOpMode {
             robot.flywheel.deactivate();
         }
 
+        if(gamepad2.leftTriggerWasPressed()){
+            robot.drivetrain.faceHive();
+        }
+        if(gamepad2.leftTriggerWasReleased()) robot.drivetrain.follower.stop();
+
 
 
         telemetry.addData("shooter speed", robot.flywheel.getVelocity());
         telemetry.addData("shooter target", robot.flywheel.getTarget());
+        telemetry.addData("pose", robot.drivetrain.follower.pose());
+        telemetry.addData("targetpose", robot.drivetrain.headingTargetRadians);
         telemetry.addData("kp", robot.flywheel.kP);
         telemetry.addData("ks", robot.flywheel.kS);
         telemetry.addData("kv", robot.flywheel.kV);
@@ -88,7 +95,7 @@ public class Tele2 extends CommandOpMode {
 
     @Override
     public void stop() {
-        robot.startPose = robot.follower.pose();
+        robot.startPose = robot.drivetrain.follower.pose();
     }
 
 

@@ -31,7 +31,7 @@ public class Robot {
     public final Drivetrain drivetrain;
     public final Intake intake;
     public final Flywheel flywheel;
-    public final Follower follower;
+    //public final Follower follower;
 
     private final List<LynxModule> hubs;
 
@@ -46,7 +46,7 @@ public class Robot {
 
         flywheel = new Flywheel(hardwareMap);
         intake = new Intake(hardwareMap);
-        follower = Constants.create(hardwareMap);
+        //follower = Constants.create(hardwareMap);
 
         drivetrain = new Drivetrain(hardwareMap);
 
@@ -60,7 +60,7 @@ public class Robot {
 
     public void periodic(){
 
-        //follower.update();
+        //drivetrain.follower.update();
         flywheel.periodic();
         drivetrain.periodic();
     }

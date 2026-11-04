@@ -114,7 +114,7 @@ public class Tele extends CommandOpMode {
 
     @Override
     public void stop() {
-        robot.startPose = robot.follower.pose();
+        robot.startPose = robot.drivetrain.follower.pose();
     }
 
 

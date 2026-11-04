@@ -18,10 +18,10 @@ import org.firstinspires.ftc.teamcode.config.pedro.Constants;
 
 public class Drivetrain {
     private DcMotorEx frontLeft, frontRight, backLeft, backRight;
-    private Follower follower;
+    public Follower follower;
     private boolean hold = false, field = true;
     private boolean lockHeading = false;
-    private double headingTargetRadians = 0; //whatever the target heading is
+    public double headingTargetRadians = 0; //whatever the target heading is
 
     Controller headingController = Controller.pid(1.75, 0, 0.09); //TODO: tune PID values
 
@@ -68,6 +68,7 @@ public class Drivetrain {
             aimPosY = 67 + (77/48) * x;
         }
 
+        //is the math.todegrees necessary here?
         double aimAngle = Math.toDegrees(Math.atan2(aimPosY - y, aimPosX - x));
 
         if(aimAngle < 0) aimAngle += 360;   // ensure 0–360
@@ -156,7 +157,8 @@ public class Drivetrain {
     }
 
     public void periodic(){
-
+        headingTargetRadians = Math.toRadians(autoAlign());
+        follower.update();
     }
 
 }

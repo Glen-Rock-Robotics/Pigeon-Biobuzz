@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
+import static com.pedropathing.ivy.commands.Commands.instant;
 import static com.pedropathing.ivy.commands.Commands.waitMs;
 import static com.pedropathing.ivy.commands.Commands.waitUntil;
+import static com.pedropathing.ivy.groups.Groups.parallel;
 import static com.pedropathing.ivy.groups.Groups.sequential;
 import static com.pedropathing.ivy.pedro.PedroCommands.follow;
 
@@ -11,9 +13,10 @@ import com.pedropathing.ivy.commands.Commands;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.config.CommandOpMode;
+import org.firstinspires.ftc.teamcode.config.pedro.Constants;
 import org.firstinspires.ftc.teamcode.config.robot.Robot;
 
-import static org.firstinspires.ftc.teamcode.config.paths.hive2Tip.*;
+import static org.firstinspires.ftc.teamcode.config.paths.hive2TipComfy.*;
 
 @Autonomous
 public class Auto extends CommandOpMode {
@@ -22,7 +25,7 @@ public class Auto extends CommandOpMode {
     @Override
     public void init() {
         robot = new Robot(hardwareMap);
-        robot.follower.setPose(startPose);
+        robot.drivetrain.follower.setPose(startPose);
 
         //multipleTelemetry = new MultipleTelemetry(FtcDashboard.getInstance().getTelemetry(), telemetry);
         robot.intake.block();
@@ -35,16 +38,64 @@ public class Auto extends CommandOpMode {
                     telemetry.update();
                 }),
                 sequential(
-                        follow(robot.follower, startToScore()).with(
-                                waitUntil(() -> robot.follower.completion() > .95).then(
-                                        robot.shoot()
-                                )
+                        parallel(
+                                follow(robot.drivetrain.follower, shootingPreloads()).with(
+                                        waitUntil(() -> robot.drivetrain.follower.completion() > .95).then(
+                                                parallel(
+                                                        instant(robot.intake::unblock),
+                                                        instant(robot.intake::start)
+                                                )
+                                        )
+                                ),
+                                instant(robot.flywheel::activate)
                         ),
-                        waitMs(500),
+                        waitMs(3000),
                         robot.unshoot(),
-                        follow(robot.follower, park())
-                )
-        );
+                        robot.intake.start(),
+                        follow(robot.drivetrain.follower, intakingFour()),
+                        waitMs(1000),
+                        robot.intake.stop(),
+                        follow(robot.drivetrain.follower, shootingFour()).with(
+                                waitUntil(() -> robot.drivetrain.follower.completion() > .5).then(
+                                        instant(robot.flywheel::activate)
+                                )
+
+                        ),
+                        parallel(
+                                instant(robot.intake::unblock),
+                                instant(robot.intake::start)
+                        ),
+                        waitMs(3000),
+                        robot.unshoot(),
+                        instant(() -> robot.intake.flower()),
+                        follow(robot.drivetrain.follower, intakingFlower1()).with(
+                                waitUntil(() -> robot.drivetrain.follower.completion() > .5).then(
+                                        robot.intake.start()
+                                )
+
+
+                        ),
+                        waitMs(1000),
+                        instant(robot.flywheel::activate),
+                        waitMs(1000),
+                        parallel(
+                                instant(robot.intake::unblock),
+                                instant(robot.intake::start)
+                        ),
+                        waitMs(3000),
+                        robot.unshoot(),
+                        follow(robot.drivetrain.follower, aligningFlower2()),
+                        robot.intake.start(),
+                        follow(robot.drivetrain.follower, intakingFlower2()),
+                        waitMs(2000),
+                        robot.intake.stop(),
+                        follow(robot.drivetrain.follower, finale()).with(
+                                instant(() -> robot.intake.unflower())
+                        )
+
+
+
+        ));
     }
 
     @Override
@@ -61,18 +112,18 @@ public class Auto extends CommandOpMode {
 
     @Override
     public void loop(){
-        robot.follower.update();
+        robot.drivetrain.follower.update();
         Scheduler.execute();
 
-        telemetry.addData("X", robot.follower.pose().x());
-        telemetry.addData("Y", robot.follower.pose().y());
-        telemetry.addData("Heading", Math.toDegrees(robot.follower.pose().heading()));
-        telemetry.addData("Follower Mode", robot.follower.mode());
+        telemetry.addData("X", robot.drivetrain.follower.pose().x());
+        telemetry.addData("Y", robot.drivetrain.follower.pose().y());
+        telemetry.addData("Heading", Math.toDegrees(robot.drivetrain.follower.pose().heading()));
+        telemetry.addData("Follower Mode", robot.drivetrain.follower.mode());
         telemetry.update();
     }
 
     @Override
     public void stop(){
-        robot.startPose = robot.follower.pose();
+        robot.startPose = robot.drivetrain.follower.pose();
     }
 }
