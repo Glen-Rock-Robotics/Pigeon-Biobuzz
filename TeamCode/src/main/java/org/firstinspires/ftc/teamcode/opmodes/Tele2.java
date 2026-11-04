@@ -5,6 +5,7 @@ import static com.pedropathing.ivy.commands.Commands.waitMs;
 import static com.pedropathing.ivy.groups.Groups.parallel;
 import static com.pedropathing.ivy.groups.Groups.sequential;
 
+import com.pedropathing.math.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.config.CommandOpMode;
@@ -64,27 +65,31 @@ public class Tele2 extends CommandOpMode {
         //robot.flywheel.forPose(robot.follower.pose(), robot.shootTarget);
 
 
-        if(gamepad2.rightTriggerWasPressed()) robot.flywheel.activate();
-        if(gamepad2.right_trigger > 0.5 && robot.flywheel.getVelocity() > robot.flywheel.getTarget() - 10){
+        if(gamepad2.rightBumperWasPressed()) robot.flywheel.activate();
+        if(gamepad2.right_bumper && robot.flywheel.getVelocity() > robot.flywheel.getTarget() - 10){
             robot.intake.unblock();
         }
 
-        if(gamepad2.rightTriggerWasReleased()) {
+        if(gamepad2.rightBumperWasReleased()) {
             robot.intake.block();
             robot.flywheel.deactivate();
         }
 
-        if(gamepad2.leftTriggerWasPressed()){
+        if(gamepad2.leftBumperWasPressed()){
             robot.drivetrain.faceHive();
         }
-        if(gamepad2.leftTriggerWasReleased()) robot.drivetrain.follower.stop();
+        if(gamepad2.leftBumperWasReleased()) robot.drivetrain.follower.stop();
+
+        if(gamepad2.shareWasPressed()){
+            robot.drivetrain.follower.setPose(new Pose(9.5, 58, 0));
+        }
 
 
 
         telemetry.addData("shooter speed", robot.flywheel.getVelocity());
         telemetry.addData("shooter target", robot.flywheel.getTarget());
         telemetry.addData("pose", robot.drivetrain.follower.pose());
-        telemetry.addData("targetpose", robot.drivetrain.headingTargetRadians);
+        telemetry.addData("targetpose", Math.toDegrees(robot.drivetrain.headingTargetRadians));
         telemetry.addData("kp", robot.flywheel.kP);
         telemetry.addData("ks", robot.flywheel.kS);
         telemetry.addData("kv", robot.flywheel.kV);

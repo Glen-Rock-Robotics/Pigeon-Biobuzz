@@ -26,29 +26,32 @@ public class Auto extends CommandOpMode {
     public void init() {
         robot = new Robot(hardwareMap);
         robot.drivetrain.follower.setPose(startPose);
+        robot.drivetrain.follower.update();
 
         //multipleTelemetry = new MultipleTelemetry(FtcDashboard.getInstance().getTelemetry(), telemetry);
         robot.intake.block();
 
         schedule(
-                Commands.infinite(robot::periodic),
-                Commands.infinite(() -> {
-                    telemetry.addData("Shooter Velocity: ", robot.flywheel.getVelocity());
-                    telemetry.addData("Shooter Target", robot.flywheel.getTarget());
-                    telemetry.update();
-                }),
+//                Commands.infinite(robot::periodic),
+//                Commands.infinite(() -> {
+//                    telemetry.addData("Shooter Velocity: ", robot.flywheel.getVelocity());
+//                    telemetry.addData("Shooter Target", robot.flywheel.getTarget());
+//                    telemetry.update();
+//                }),
                 sequential(
                         parallel(
                                 follow(robot.drivetrain.follower, shootingPreloads()).with(
-                                        waitUntil(() -> robot.drivetrain.follower.completion() > .95).then(
+                                        waitUntil(() -> robot.drivetrain.follower.completion() > .5).then(
                                                 parallel(
                                                         instant(robot.intake::unblock),
-                                                        instant(robot.intake::start)
+                                                        robot.intake.start()
                                                 )
                                         )
                                 ),
                                 instant(robot.flywheel::activate)
                         ),
+                        instant(robot.intake::unblock),
+                        robot.intake.start(),
                         waitMs(3000),
                         robot.unshoot(),
                         robot.intake.start(),
@@ -113,7 +116,11 @@ public class Auto extends CommandOpMode {
     @Override
     public void loop(){
         robot.drivetrain.follower.update();
+        robot.periodic();
         Scheduler.execute();
+
+        telemetry.addData("Shooter Velocity: ", robot.flywheel.getVelocity());
+        telemetry.addData("Shooter Target", robot.flywheel.getTarget());
 
         telemetry.addData("X", robot.drivetrain.follower.pose().x());
         telemetry.addData("Y", robot.drivetrain.follower.pose().y());

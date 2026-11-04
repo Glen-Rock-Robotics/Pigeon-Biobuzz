@@ -2,7 +2,7 @@ repositories {
     mavenCentral()
     google() // Needed for androidx
     maven { url = "https://mymaven.bylazar.com/releases" }
-    maven { url 'https://repo.dairy.foundation/releases/'}
+    //maven { url 'https://repo.dairy.foundation/releases/'}
 }
 
 dependencies {
@@ -17,16 +17,16 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
 
     implementation 'com.pedropathing:revhub:3.0.2'
-    implementation 'com.pedropathing:tuning:1.0.2'
+    implementation 'com.pedropathing:tuning:1.0.3'
 
     implementation 'com.pedropathing.ivy:pedro:1.1.1'
-    implementation("dev.frozenmilk.sinister:Sloth:0.3.2")
+    //implementation("dev.frozenmilk.sinister:Sloth:0.3.2")
 
     implementation('com.github.haifengl:smile-interpolation:2.6.0') {
         exclude group: 'org.slf4j'
     }
 
-    implementation "com.bylazar:fullpanels:1.0.19"
+    //implementation "com.bylazar:fullpanels:1.0.19"
 
 //    implementation "org.solverslib:core:0.3.6" // core
 //    implementation "org.solverslib:pedroPathing:0.3.6" // pedroPathing

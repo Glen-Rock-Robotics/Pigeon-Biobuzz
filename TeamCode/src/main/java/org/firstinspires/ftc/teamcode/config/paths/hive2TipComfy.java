@@ -17,8 +17,8 @@ public class hive2TipComfy {
     public static final PoseFactory poseFactory = PoseFactory.degrees();
 
     public static final Pose startPose = poseFactory.of(7.5, 15, 270);
-    public static final Pose shootPreloads = poseFactory.of(12, 12, 220);
-    public static final Pose intakeFour = poseFactory.of(7, 8, 270);
+    public static final Pose shootPreloads = poseFactory.of(16, 16, 220);
+    public static final Pose intakeFour = poseFactory.of(10, 10, 270);
     public static final Pose shootFour = poseFactory.of(48, 120, 100);
     public static final Pose point3Control1 = poseFactory.of(33.809, 44.5813, 0);
     public static final Pose point3Control2 = poseFactory.of(10.1072, 115.5654, 0);

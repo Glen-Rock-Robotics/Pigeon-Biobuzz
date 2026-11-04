@@ -22,16 +22,16 @@ public class Intake {
     public Intake(HardwareMap hardwareMap) {
         intake = hardwareMap.get(DcMotor.class, "intake");
         blocker = hardwareMap.get(Servo.class, "stopperServo");
-        //flower = hardwareMap.get(Servo.class, "flowerServo");
+        flower = hardwareMap.get(Servo.class, "flowerServo");
     }
 
     public void flower(){
-        flower.setPosition(.3);
+        flower.setPosition(.75);
         flowerEngaged = true;
     }
 
     public void unflower(){
-        flower.setPosition(.5);
+        flower.setPosition(.05);
         flowerEngaged = false;
     }
 
