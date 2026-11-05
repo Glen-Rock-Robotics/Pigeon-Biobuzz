@@ -19,7 +19,7 @@ public class hive2TipComfy {
 
     public static final Pose startPose = poseFactory.of(7.5, 15, 270);
     public static final Pose shootPreloads = poseFactory.of(27.48, 10.75, 240);
-    public static final Pose intakeFour = poseFactory.of(5.75, 9.6, 190);
+    public static final Pose intakeFour = poseFactory.of(10, 9.6, 190);
     public static final Pose shootFour = poseFactory.of(48, 120, 100);
     public static final Pose point3Control1 = poseFactory.of(33.809, 44.5813, 0);
     public static final Pose point3Control2 = poseFactory.of(10.1072, 115.5654, 0);
@@ -62,7 +62,7 @@ public class hive2TipComfy {
     }
 
     public static Path finale() {
-        return Paths.curve(shootFlower2, shootAndPark).linear(shootFlower2, shootAndPark);
+        return Paths.line(shootFlower2, shootAndPark).linear(shootFlower2, shootAndPark);
     }
 
     ///should probably switch to grabbing from flowers first then from the pile last because the pile is probably less efficient

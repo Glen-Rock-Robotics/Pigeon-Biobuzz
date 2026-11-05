@@ -29,19 +29,19 @@ public class Drivetrain {
         follower = Constants.create(hardwareMap);
         //follower.setPose(start);
 
-        frontLeft = hardwareMap.get(DcMotorEx.class, "frontLeft");
-        frontRight = hardwareMap.get(DcMotorEx.class, "frontRight");
-        backLeft = hardwareMap.get(DcMotorEx.class, "backLeft");
-        backRight = hardwareMap.get(DcMotorEx.class, "backRight");
-
-        frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        backRight.setDirection(DcMotor.Direction.REVERSE);
-        //frontLeft.setDirection(DcMotor.Direction.REVERSE);
-        frontRight.setDirection(DcMotor.Direction.REVERSE);
+//        frontLeft = hardwareMap.get(DcMotorEx.class, "frontLeft");
+//        frontRight = hardwareMap.get(DcMotorEx.class, "frontRight");
+//        backLeft = hardwareMap.get(DcMotorEx.class, "backLeft");
+//        backRight = hardwareMap.get(DcMotorEx.class, "backRight");
+////
+////        frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+////        frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+////        backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+////        backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//
+//        backRight.setDirection(DcMotor.Direction.REVERSE);
+//        //frontLeft.setDirection(DcMotor.Direction.REVERSE);
+//        frontRight.setDirection(DcMotor.Direction.REVERSE);
     }
 
     private static double signedSquare(double raw) {
@@ -52,34 +52,36 @@ public class Drivetrain {
 
         double x = follower.pose().x();
         double y = follower.pose().y();
+
         double botAngle = Math.toDegrees(follower.pose().heading());
 
-        double aimPosX;
-        double aimPosY;
+        double aimPosX = 0;
+        double aimPosY = 0;
 
         if(x > 48 && x < 67){
             aimPosX = x;
             aimPosY = 60;
-        }else if(x < 48){
+        } else if(x < 48){
             aimPosX = 67;
             aimPosY = 50 + 5/24  * x;
         }else{
             aimPosX = 48;
-            aimPosY = 67 + (77/48) * x;
+            aimPosY = 50 + (77/48) * x;
         }
 
         //is the math.todegrees necessary here?
-        double aimAngle = Math.toDegrees(Math.atan2(aimPosY - y, aimPosX - x));
+        double aimAngle = Math.toDegrees(Math.atan2(aimPosY - y, aimPosX - x)) + 180;
 
-        if(aimAngle < 0) aimAngle += 360;   // ensure 0–360
+        if(aimAngle > 360){
+            aimAngle -= 360;
+        }else if (aimAngle < -360){
+            aimAngle += 360;
+        }
 
-        double diff = aimAngle - botAngle;
 
-        if(diff > 180) diff -= 360;
-        if(diff < -180) diff += 360;
 
         //TODO: convert algorithm into radians
-        return diff;
+        return aimAngle;
     }
 
     public double distance(){

@@ -14,7 +14,7 @@ public class Intake {
 
     private DcMotor intake;
     private Servo flower;
-    private Servo blocker;
+    public Servo blocker;
 
     public boolean intakeOn = false;
     public boolean flowerEngaged = false;
@@ -26,12 +26,12 @@ public class Intake {
     }
 
     public void flower(){
-        flower.setPosition(.75);
+        flower.setPosition(0.01);
         flowerEngaged = true;
     }
 
     public void unflower(){
-        flower.setPosition(.05);
+        flower.setPosition(.7);
         flowerEngaged = false;
     }
 

@@ -4,6 +4,7 @@ import static com.pedropathing.ivy.commands.Commands.instant;
 import static com.pedropathing.ivy.commands.Commands.waitMs;
 import static com.pedropathing.ivy.groups.Groups.parallel;
 import static com.pedropathing.ivy.groups.Groups.sequential;
+import static com.pedropathing.ivy.pedro.PedroCommands.hold;
 
 import com.pedropathing.math.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -20,6 +21,7 @@ public class Tele2 extends CommandOpMode {
     public void init() {
         robot = new Robot(hardwareMap);
         robot.drivetrain.follower.setPose(robot.startPose);
+        //robot.drivetrain.follower.
 
         //multipleTelemetry = new MultipleTelemetry(FtcDashboard.getInstance().getTelemetry(), telemetry);
 
@@ -42,7 +44,8 @@ public class Tele2 extends CommandOpMode {
     public void loop() {
         robot.periodic();
 
-        robot.drivetrain.startDrive(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+
+        //robot.drivetrain.startDrive(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
 
         if(gamepad1.rightBumperWasPressed()) robot.intake.flower();
         if(gamepad1.leftBumperWasPressed()) robot.intake.unflower();
@@ -76,17 +79,24 @@ public class Tele2 extends CommandOpMode {
         }
 
         if(gamepad2.leftBumperWasPressed()){
-            robot.drivetrain.faceHive();
+            robot.drivetrain.follower.stop();
+            hold(robot.drivetrain.follower, new Pose(robot.drivetrain.follower.pose().x(), robot.drivetrain.follower.pose().y(), robot.drivetrain.headingTargetRadians)).schedule();
+        }else if(!gamepad2.left_bumper){
+            robot.drivetrain.follower.manual(-gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x);
         }
         if(gamepad2.leftBumperWasReleased()) robot.drivetrain.follower.stop();
 
         if(gamepad2.shareWasPressed()){
-            robot.drivetrain.follower.setPose(new Pose(9.5, 58, 0));
+            robot.drivetrain.follower.setPose(new Pose(9, 7.5, Math.toRadians(180)));
             gamepad1.rumbleBlips(2);
             gamepad2.rumbleBlips(2);
         }
 
+        if(gamepad2.dpadUpWasPressed()) robot.flywheel.kP += 0.0001;//robot.flywheel.adjustTarget(100);
+        if(gamepad2.dpadDownWasPressed()) robot.flywheel.kP -= 0.0001;//robot.flywheel.adjustTarget(-100);
 
+        if(gamepad2.dpadRightWasPressed()) robot.flywheel.kV += 0.0001;//robot.flywheel.adjustTarget(100);
+        if(gamepad2.dpadLeftWasPressed()) robot.flywheel.kV -= 0.0001;
 
         telemetry.addData("shooter speed", robot.flywheel.getVelocity());
         telemetry.addData("shooter target", robot.flywheel.getTarget());

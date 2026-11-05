@@ -41,14 +41,12 @@ public class Auto extends CommandOpMode {
                 sequential(
                         parallel(
                                 follow(robot.drivetrain.follower, shootingPreloads()).with(
-                                        waitUntil(() -> robot.drivetrain.follower.completion() > .5).then(
-                                                parallel(
-                                                        instant(robot.intake::unblock),
-                                                        robot.intake.start()
-                                                )
-                                        )
                                 ),
                                 instant(robot.flywheel::activate)
+                        ),
+                        parallel(
+                                instant(robot.intake::unblock),
+                                robot.intake.start()
                         ),
                         waitMs(3000),
                         robot.unshoot(),
@@ -132,7 +130,8 @@ public class Auto extends CommandOpMode {
 
         telemetry.addData("Shooter Velocity: ", robot.flywheel.getVelocity());
         telemetry.addData("Shooter Target", robot.flywheel.getTarget());
-
+        telemetry.addData("Completeion Mode", robot.drivetrain.follower.completion());
+        telemetry.addData("servo", robot.intake.blocker.getPosition());
         telemetry.addData("X", robot.drivetrain.follower.pose().x());
         telemetry.addData("Y", robot.drivetrain.follower.pose().y());
         telemetry.addData("Heading", Math.toDegrees(robot.drivetrain.follower.pose().heading()));
