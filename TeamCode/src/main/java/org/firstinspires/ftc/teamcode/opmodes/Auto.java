@@ -50,13 +50,11 @@ public class Auto extends CommandOpMode {
                                 ),
                                 instant(robot.flywheel::activate)
                         ),
-                        instant(robot.intake::unblock),
-                        robot.intake.start(),
                         waitMs(3000),
                         robot.unshoot(),
                         robot.intake.start(),
                         follow(robot.drivetrain.follower, intakingFour()),
-                        waitMs(1000),
+                        waitMs(2000),
                         robot.intake.stop(),
                         follow(robot.drivetrain.follower, shootingFour()).with(
                                 waitUntil(() -> robot.drivetrain.follower.completion() > .5).then(
@@ -66,11 +64,12 @@ public class Auto extends CommandOpMode {
                         ),
                         parallel(
                                 instant(robot.intake::unblock),
-                                instant(robot.intake::start)
+                                robot.intake.start()
                         ),
                         waitMs(3000),
                         robot.unshoot(),
                         instant(() -> robot.intake.flower()),
+                        waitMs(3000),
                         follow(robot.drivetrain.follower, intakingFlower1()).with(
                                 waitUntil(() -> robot.drivetrain.follower.completion() > .5).then(
                                         robot.intake.start()
@@ -83,7 +82,7 @@ public class Auto extends CommandOpMode {
                         waitMs(1000),
                         parallel(
                                 instant(robot.intake::unblock),
-                                instant(robot.intake::start)
+                                robot.intake.start()
                         ),
                         waitMs(3000),
                         robot.unshoot(),
@@ -92,10 +91,22 @@ public class Auto extends CommandOpMode {
                         follow(robot.drivetrain.follower, intakingFlower2()),
                         waitMs(2000),
                         robot.intake.stop(),
-                        follow(robot.drivetrain.follower, finale()).with(
-                                instant(() -> robot.intake.unflower())
-                        )
+                        follow(robot.drivetrain.follower, shootingFlower2()).with(
+                                parallel(
+                                        instant(() -> robot.intake.unflower()),
+                                        waitUntil(() -> robot.drivetrain.follower.completion() > .5).then(
+                                                parallel(
+                                                        instant(robot.flywheel::activate)
+                                                )
+                                        )
+                                )
 
+                        ),
+                        instant(robot.intake::unblock),
+                        robot.intake.start(),
+                        waitMs(3000),
+                        follow(robot.drivetrain.follower, finale()).with(
+                                robot.unshoot())
 
 
         ));

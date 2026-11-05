@@ -82,6 +82,8 @@ public class Tele2 extends CommandOpMode {
 
         if(gamepad2.shareWasPressed()){
             robot.drivetrain.follower.setPose(new Pose(9.5, 58, 0));
+            gamepad1.rumbleBlips(2);
+            gamepad2.rumbleBlips(2);
         }
 
 
