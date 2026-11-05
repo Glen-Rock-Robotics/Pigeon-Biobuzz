@@ -67,25 +67,41 @@ public class Tele2 extends CommandOpMode {
 
         //robot.flywheel.forPose(robot.follower.pose(), robot.shootTarget);
 
+        //just shoot
+        if(gamepad2.leftBumperWasPressed()) robot.flywheel.activate();
 
-        if(gamepad2.rightBumperWasPressed()) robot.flywheel.activate();
-        if(gamepad2.right_bumper && robot.flywheel.getVelocity() > robot.flywheel.getTarget() - 10){
+        if(gamepad2.left_bumper && robot.flywheel.getVelocity() > robot.flywheel.getTarget() - 10){
             robot.intake.unblock();
         }
 
-        if(gamepad2.rightBumperWasReleased()) {
+        if(gamepad2.leftBumperWasReleased()) {
             robot.intake.block();
             robot.flywheel.deactivate();
         }
 
-        if(gamepad2.leftBumperWasPressed()){
+
+        //aim and shoot
+        if(gamepad2.rightBumperWasPressed()){
             robot.drivetrain.follower.stop();
             hold(robot.drivetrain.follower, new Pose(robot.drivetrain.follower.pose().x(), robot.drivetrain.follower.pose().y(), robot.drivetrain.headingTargetRadians)).schedule();
-        }else if(!gamepad2.left_bumper){
+            robot.flywheel.activate();
+
+        }else if(!gamepad2.right_bumper){
             robot.drivetrain.follower.manual(-gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x);
         }
-        if(gamepad2.leftBumperWasReleased()) robot.drivetrain.follower.stop();
 
+        if(gamepad2.rightBumperWasReleased()){
+            robot.drivetrain.follower.stop();
+            robot.intake.block();
+            robot.flywheel.deactivate();
+        }
+
+        if(gamepad2.right_bumper && robot.flywheel.getVelocity() > robot.flywheel.getTarget() - 10){
+            robot.intake.unblock();
+        }
+
+
+        //relocalize
         if(gamepad2.shareWasPressed()){
             robot.drivetrain.follower.setPose(new Pose(9, 7.5, Math.toRadians(180)));
             gamepad1.rumbleBlips(2);

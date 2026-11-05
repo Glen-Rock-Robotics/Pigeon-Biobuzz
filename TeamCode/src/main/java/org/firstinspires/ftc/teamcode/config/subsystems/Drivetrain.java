@@ -58,15 +58,42 @@ public class Drivetrain {
         double aimPosX = 0;
         double aimPosY = 0;
 
-        if(x > 48 && x < 67){
-            aimPosX = x;
-            aimPosY = 60;
-        } else if(x < 48){
-            aimPosX = 67;
-            aimPosY = 50 + 5/24  * x;
-        }else{
-            aimPosX = 48;
-            aimPosY = 50 + (77/48) * x;
+        if(y < 72) {
+            if (x > 48 && x < 67) {
+                aimPosX = x;
+                aimPosY = 60;
+                if (y > 12) {
+                    if (aimPosX < 55) {
+                        aimPosX = 67;
+                    } else {
+                        aimPosY = 48;
+                    }
+                }
+            } else if (x < 48) {
+                aimPosX = 67;
+                aimPosY = 50 + 5 / 24 * x;
+            } else {
+                aimPosX = 48;
+                aimPosY = 50 + (77 / 48) * x;
+            }
+        } else {
+            if (x > 48 && x < 67) {
+                aimPosX = x;
+                aimPosY = 80;
+                if (y > 12) {
+                    if (aimPosX < 55) {
+                        aimPosX = 67;
+                    } else {
+                        aimPosY = 48;
+                    }
+                }
+            } else if (x < 48) {
+                aimPosX = 67;
+                aimPosY = 70 + (5 / 24) * x;
+            } else {
+                aimPosX = 48;
+                aimPosY = 70 + (77 / 48) * x;
+            }
         }
 
         //is the math.todegrees necessary here?
