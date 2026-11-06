@@ -48,17 +48,45 @@ public class Drivetrain {
         return Math.signum(raw) * Math.pow(raw, 2);
     }
 
-    public double autoAlign(){
+    public double autoAlign() {
 
         double x = follower.pose().x();
         double y = follower.pose().y();
 
         double botAngle = Math.toDegrees(follower.pose().heading());
 
-        double aimPosX = 0;
-        double aimPosY = 0;
+        //double aimPosX = 0;
+        //double aimPosY = 0;
+        double angleOne;
+        double angleTwo;
 
-        if(y < 72) {
+        if (y < 72) {
+            if (x > 48 && x < 68 && y > 12) {
+                if (x < 55) {
+                    angleOne = Math.toDegrees(Math.atan2(60 - y, 67 - x)) + 270;
+                } else {
+                    angleOne = Math.toDegrees(Math.atan2(60 - y, 48 - x)) + 270;
+                }
+            }
+            angleOne = Math.toDegrees(Math.atan2(52 - y, 48 - x)) + 270;
+            angleTwo = Math.toDegrees(Math.atan2(52 - y, 68 - x)) + 270;
+            angleOne = (angleOne + angleTwo) * .5;
+        }else {
+            if (x > 48 && x < 68 && y < 132) {
+                if (x < 55) {
+                    angleOne = Math.toDegrees(Math.atan2(80 - y, 67 - x)) + 90;
+                } else {
+                    angleOne = Math.toDegrees(Math.atan2(80 - y, 48 - x)) + 90;
+                }
+            }
+            angleOne = Math.toDegrees(Math.atan2(88 - y, 48 - x)) + 90;
+            angleTwo = Math.toDegrees(Math.atan2(88 - y, 68 - x)) + 90;
+            angleOne = (angleOne + angleTwo) * .5;
+        }
+
+
+
+       /* if(y < 72) {
             if (x > 48 && x < 67) {
                 aimPosX = x;
                 aimPosY = 60;
@@ -93,11 +121,11 @@ public class Drivetrain {
             } else {
                 aimPosX = 48;
                 aimPosY = 70 + (77 / 48) * x;
-            }
-        }
+            } */
+
 
         //is the math.todegrees necessary here?
-        double aimAngle = Math.toDegrees(Math.atan2(aimPosY - y, aimPosX - x)) + 180;
+        double aimAngle = angleOne;
 
         if(aimAngle > 360){
             aimAngle -= 360;
@@ -105,9 +133,6 @@ public class Drivetrain {
             aimAngle += 360;
         }
 
-
-
-        //TODO: convert algorithm into radians
         return aimAngle;
     }
 
