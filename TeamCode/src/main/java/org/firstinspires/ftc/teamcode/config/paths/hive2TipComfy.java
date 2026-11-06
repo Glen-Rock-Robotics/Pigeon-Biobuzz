@@ -46,7 +46,7 @@ public class hive2TipComfy {
     }
 
     public static Path intakingFlower1() {
-        return Paths.line(shootFour, intakeFlower1).constant(shootFour).with(Constants.foresightConfig.maxPathSpeed.at(0.8));
+        return Paths.line(shootFour, intakeFlower1).constant(shootFour).with(Constants.foresightConfig.maxPathSpeed.at(1.0));
     }
 
     public static Path aligningFlower2() {
@@ -54,7 +54,7 @@ public class hive2TipComfy {
     }
 
     public static Path intakingFlower2() {
-        return Paths.line(positionFlower2, intakeFlower2).tangent().with(Constants.foresightConfig.maxPathSpeed.at(0.8));
+        return Paths.line(positionFlower2, intakeFlower2).tangent().with(Constants.foresightConfig.maxPathSpeed.at(1.0));
     }
 
     public static Path shootingFlower2() {

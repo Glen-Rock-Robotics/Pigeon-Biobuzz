@@ -49,7 +49,7 @@ public class Auto extends CommandOpMode {
                                 instant(robot.intake::unblock),
                                 robot.intake.start()
                         ),
-                        waitMs(3000),
+                        waitMs(1000),
                         robot.unshoot(),
                         robot.intake.start(),
                         follow(robot.drivetrain.follower, intakingFour()),
@@ -67,10 +67,10 @@ public class Auto extends CommandOpMode {
                                 instant(robot.intake::unblock),
                                 robot.intake.start()
                         ),
-                        waitMs(3000),
+                        waitMs(1000),
                         robot.unshoot(),
                         instant(() -> robot.intake.flower()),
-                        waitMs(3000),
+                        waitMs(1500),
                         follow(robot.drivetrain.follower, intakingFlower1()).with(
                                 waitUntil(() -> robot.drivetrain.follower.completion() > .5).then(
                                         robot.intake.start()
@@ -78,14 +78,13 @@ public class Auto extends CommandOpMode {
 
 
                         ),
-                        waitMs(1000),
                         instant(robot.flywheel::activate),
                         waitMs(1000),
                         parallel(
                                 instant(robot.intake::unblock),
                                 robot.intake.start()
                         ),
-                        waitMs(3000),
+                        waitMs(1500),
                         robot.unshoot(),
                         follow(robot.drivetrain.follower, aligningFlower2()),
                         robot.intake.start(),
