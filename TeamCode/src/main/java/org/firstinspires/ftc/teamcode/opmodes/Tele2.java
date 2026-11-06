@@ -103,25 +103,15 @@ public class Tele2 extends CommandOpMode {
 
         //relocalize
         if(gamepad2.shareWasPressed()){
-            robot.drivetrain.follower.setPose(new Pose(9, 7.5, Math.toRadians(180)));
+            robot.drivetrain.follower.setPose(new Pose(8, 64, Math.toRadians(0)));//(new Pose(9, 7.5, Math.toRadians(180)));
             gamepad1.rumbleBlips(2);
             gamepad2.rumbleBlips(2);
         }
-
-        if(gamepad2.dpadUpWasPressed()) robot.flywheel.kP += 0.0001;//robot.flywheel.adjustTarget(100);
-        if(gamepad2.dpadDownWasPressed()) robot.flywheel.kP -= 0.0001;//robot.flywheel.adjustTarget(-100);
-
-        if(gamepad2.dpadRightWasPressed()) robot.flywheel.kV += 0.0001;//robot.flywheel.adjustTarget(100);
-        if(gamepad2.dpadLeftWasPressed()) robot.flywheel.kV -= 0.0001;
 
         telemetry.addData("shooter speed", robot.flywheel.getVelocity());
         telemetry.addData("shooter target", robot.flywheel.getTarget());
         telemetry.addData("pose", robot.drivetrain.follower.pose());
         telemetry.addData("targetpose", Math.toDegrees(robot.drivetrain.headingTargetRadians));
-        telemetry.addData("kp", robot.flywheel.kP);
-        telemetry.addData("ks", robot.flywheel.kS);
-        telemetry.addData("kv", robot.flywheel.kV);
-
 
     }
 

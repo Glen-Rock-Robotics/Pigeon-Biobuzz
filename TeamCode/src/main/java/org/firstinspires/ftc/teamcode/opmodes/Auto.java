@@ -42,6 +42,7 @@ public class Auto extends CommandOpMode {
                         parallel(
                                 follow(robot.drivetrain.follower, shootingPreloads()).with(
                                 ),
+                                instant(() -> robot.flywheel.setTarget(1590)),
                                 instant(robot.flywheel::activate)
                         ),
                         parallel(
@@ -52,8 +53,10 @@ public class Auto extends CommandOpMode {
                         robot.unshoot(),
                         robot.intake.start(),
                         follow(robot.drivetrain.follower, intakingFour()),
+                        //insert timeout and refresh path to move back and forth
                         waitMs(2000),
                         robot.intake.stop(),
+                        instant(() -> robot.flywheel.setTarget(1550)),
                         follow(robot.drivetrain.follower, shootingFour()).with(
                                 waitUntil(() -> robot.drivetrain.follower.completion() > .5).then(
                                         instant(robot.flywheel::activate)
