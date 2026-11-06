@@ -18,17 +18,22 @@ public class hive2TipComfy {
     public static final PoseFactory poseFactory = PoseFactory.degrees();
 
     public static final Pose startPose = poseFactory.of(7.5, 15, 270);
-    public static final Pose shootPreloads = poseFactory.of(27.48, 10.75, 230);
-    public static final Pose intakeFour = poseFactory.of(10, 9.6, 190);
-    public static final Pose shootFour = poseFactory.of(52, 120, 100);
+    public static final Pose shootPreloads = poseFactory.of(18, 18, 220);
+
+    private static final Pose alignAngleIntakeFour = poseFactory.of(11.85, 20.62, 260);
+
+    private static final Pose angleIntakeFour = poseFactory.of(8.5, 10, 260);
+    private static final Pose alignIntakeFour = poseFactory.of(8.5, 16, 270);
+    private static final Pose intakeFour = poseFactory.of(8.5, 11.5, 270);
+    public static final Pose shootFour = poseFactory.of(54, 120, 100);
     public static final Pose point3Control1 = poseFactory.of(33.809, 44.5813, 0);
     public static final Pose point3Control2 = poseFactory.of(10.1072, 115.5654, 0);
     private static final Pose point3Segment1Heading = poseFactory.of(48, 120, 190);
     private static final Pose point3Segment3Start = poseFactory.of(48, 120, 50.0403);
     private static final Pose point3Segment3End = poseFactory.of(48, 120, 100);
-    public static final Pose intakeFlower1 = poseFactory.of(52, 128, 100);
+    public static final Pose intakeFlower1 = poseFactory.of(55, 128, 100);
     public static final Pose positionFlower2 = poseFactory.of(21, 48, 180);
-    public static final Pose intakeFlower2 = poseFactory.of(12, 48, 180);
+    public static final Pose intakeFlower2 = poseFactory.of(15.5, 48, 180);
     public static final Pose shootFlower2 = poseFactory.of(46.45, 119.25, 110);
     public static final Pose shootAndPark = poseFactory.of(13, 120, 145);
     public static final Pose point7Control1 = poseFactory.of(52.8329, 87.0083, 0);
@@ -36,9 +41,23 @@ public class hive2TipComfy {
     public static Path shootingPreloads() {
         return Paths.line(startPose, shootPreloads).linear(startPose, shootPreloads);
     }
+    public static Path aligningFour() {
+        return Paths.line(shootPreloads, alignAngleIntakeFour).linear(shootPreloads, alignAngleIntakeFour, .2);
+    }
 
+    public static Path angleIntakingFour() {
+        return Paths.line(alignAngleIntakeFour, angleIntakeFour).linear(alignAngleIntakeFour, angleIntakeFour, .2);
+    }
+
+    public static Path reverseResetFour() {
+        return Paths.line(angleIntakeFour, alignIntakeFour).linear(alignIntakeFour, alignIntakeFour, .2);
+    }
     public static Path intakingFour() {
-        return Paths.line(shootPreloads, intakeFour).linear(shootPreloads, intakeFour, .2).with(Constants.foresightConfig.maxPathSpeed.at(0.8));
+        return Paths.line(alignIntakeFour, intakeFour).linear(alignIntakeFour, intakeFour, .2);
+    }
+
+    public static Path reverseIntakingFour() {
+        return Paths.line(intakeFour, alignIntakeFour).linear(alignIntakeFour, intakeFour, .2);
     }
 
     public static Path shootingFour() {
@@ -46,7 +65,7 @@ public class hive2TipComfy {
     }
 
     public static Path intakingFlower1() {
-        return Paths.line(shootFour, intakeFlower1).constant(shootFour).with(Constants.foresightConfig.maxPathSpeed.at(1.0));
+        return Paths.line(shootFour, intakeFlower1).constant(shootFour);
     }
 
     public static Path aligningFlower2() {
@@ -54,7 +73,7 @@ public class hive2TipComfy {
     }
 
     public static Path intakingFlower2() {
-        return Paths.line(positionFlower2, intakeFlower2).tangent().with(Constants.foresightConfig.maxPathSpeed.at(1.0));
+        return Paths.line(positionFlower2, intakeFlower2).tangent();
     }
 
     public static Path shootingFlower2() {

@@ -1,3 +1,4 @@
+/*
 package org.firstinspires.ftc.teamcode.opmodes;
 
 import static com.pedropathing.ivy.commands.Commands.instant;
@@ -120,3 +121,4 @@ public class Tele extends CommandOpMode {
 
 
 }
+*/

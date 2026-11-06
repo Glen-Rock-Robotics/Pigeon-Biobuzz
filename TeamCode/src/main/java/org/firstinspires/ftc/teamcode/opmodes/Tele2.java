@@ -108,10 +108,25 @@ public class Tele2 extends CommandOpMode {
             gamepad2.rumbleBlips(2);
         }
 
+        if(gamepad2.circleWasPressed()){
+            robot.flywheel.activate();
+        }else if(gamepad2.circleWasReleased()){
+            robot.flywheel.deactivate();
+        }
+
         telemetry.addData("shooter speed", robot.flywheel.getVelocity());
         telemetry.addData("shooter target", robot.flywheel.getTarget());
         telemetry.addData("pose", robot.drivetrain.follower.pose());
         telemetry.addData("targetpose", Math.toDegrees(robot.drivetrain.headingTargetRadians));
+
+        if(robot.drivetrain.follower.pose().y() > 72){
+            robot.flywheel.forPose(robot.drivetrain.follower.pose(), new Pose(58, 80));
+        }else{
+            robot.flywheel.forPose(robot.drivetrain.follower.pose(), new Pose(58, 60));
+        }
+
+        telemetry.addData("targetdisplacement", robot.flywheel.xDistance);
+        telemetry.addData("targetdisplacementy", robot.flywheel.yDistance);
 
     }
 

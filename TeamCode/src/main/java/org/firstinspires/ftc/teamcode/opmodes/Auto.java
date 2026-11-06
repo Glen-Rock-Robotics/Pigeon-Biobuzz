@@ -34,6 +34,7 @@ public class Auto extends CommandOpMode {
         schedule(
 //                Commands.infinite(robot::periodic),
 //                Commands.infinite(() -> {
+
 //                    telemetry.addData("Shooter Velocity: ", robot.flywheel.getVelocity());
 //                    telemetry.addData("Shooter Target", robot.flywheel.getTarget());
 //                    telemetry.update();
@@ -52,9 +53,14 @@ public class Auto extends CommandOpMode {
                         waitMs(1000),
                         robot.unshoot(),
                         robot.intake.start(),
-                        follow(robot.drivetrain.follower, intakingFour()),
+                        follow(robot.drivetrain.follower, aligningFour()),
+                        follow(robot.drivetrain.follower, angleIntakingFour()).until(() -> robot.drivetrain.follower.completion() > 0.95),
+                        follow(robot.drivetrain.follower, reverseResetFour()),
+                        follow(robot.drivetrain.follower, intakingFour()).until(() -> robot.drivetrain.follower.completion() > 0.95),
+                        follow(robot.drivetrain.follower, reverseIntakingFour()),
+                        follow(robot.drivetrain.follower, intakingFour()).until(() -> robot.drivetrain.follower.completion() > 0.95),
                         //insert timeout and refresh path to move back and forth
-                        waitMs(2000),
+                        waitMs(1500),
                         robot.intake.stop(),
                         instant(() -> robot.flywheel.setTarget(1550)),
                         follow(robot.drivetrain.follower, shootingFour()).with(
@@ -89,7 +95,7 @@ public class Auto extends CommandOpMode {
                         follow(robot.drivetrain.follower, aligningFlower2()),
                         robot.intake.start(),
                         follow(robot.drivetrain.follower, intakingFlower2()),
-                        waitMs(2000),
+                        waitMs(1500),
                         robot.intake.stop(),
                         follow(robot.drivetrain.follower, shootingFlower2()).with(
                                 parallel(
@@ -104,7 +110,7 @@ public class Auto extends CommandOpMode {
                         ),
                         instant(robot.intake::unblock),
                         robot.intake.start(),
-                        waitMs(3000),
+                        waitMs(2500),
                         follow(robot.drivetrain.follower, finale()).with(
                                 robot.unshoot())
 

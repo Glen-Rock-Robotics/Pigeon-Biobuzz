@@ -63,24 +63,24 @@ public class Drivetrain {
         if (y < 72) {
             if (x > 48 && x < 68 && y > 12) {
                 if (x < 55) {
-                    angleOne = Math.toDegrees(Math.atan2(60 - y, 67 - x)) + 270;
+                    angleOne = Math.toDegrees(Math.atan2(60 - y, 67 - x)) + 180;
                 } else {
-                    angleOne = Math.toDegrees(Math.atan2(60 - y, 48 - x)) + 270;
+                    angleOne = Math.toDegrees(Math.atan2(60 - y, 48 - x)) + 180;
                 }
             }
-            angleOne = Math.toDegrees(Math.atan2(52 - y, 48 - x)) + 270;
-            angleTwo = Math.toDegrees(Math.atan2(52 - y, 68 - x)) + 270;
+            angleOne = Math.toDegrees(Math.atan2(52 - y, 48 - x)) + 180;
+            angleTwo = Math.toDegrees(Math.atan2(52 - y, 68 - x)) + 180;
             angleOne = (angleOne + angleTwo) * .5;
         }else {
             if (x > 48 && x < 68 && y < 132) {
                 if (x < 55) {
-                    angleOne = Math.toDegrees(Math.atan2(80 - y, 67 - x)) + 90;
+                    angleOne = Math.toDegrees(Math.atan2(80 - y, 67 - x)) + 180;
                 } else {
-                    angleOne = Math.toDegrees(Math.atan2(80 - y, 48 - x)) + 90;
+                    angleOne = Math.toDegrees(Math.atan2(80 - y, 48 - x)) + 180;
                 }
             }
-            angleOne = Math.toDegrees(Math.atan2(88 - y, 48 - x)) + 90;
-            angleTwo = Math.toDegrees(Math.atan2(88 - y, 68 - x)) + 90;
+            angleOne = Math.toDegrees(Math.atan2(88 - y, 48 - x)) + 180;
+            angleTwo = Math.toDegrees(Math.atan2(88 - y, 68 - x)) + 180;
             angleOne = (angleOne + angleTwo) * .5;
         }
 
@@ -129,7 +129,7 @@ public class Drivetrain {
 
         if(aimAngle > 360){
             aimAngle -= 360;
-        }else if (aimAngle < -360){
+        }else if (aimAngle < 0){
             aimAngle += 360;
         }
 

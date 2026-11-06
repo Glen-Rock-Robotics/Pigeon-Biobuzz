@@ -14,20 +14,27 @@ public class Flywheel {
 
     private boolean shooterOn = false;
     private double targetSpeed = 1570;
+    private double adjustSpeed = 0;
 
     public static double kS = 0.03, kV = 0.0004, kP = 0.005;
     //kS stands for "static." It's the greatest power you can give the flywheel motor(s) without it moving. So it should be a really small number below like 0.05 or something. You should increase it until it begins to move and then decrease it until it stops moving again.
     //kV is the next number you tune. Pick a velocity like 1500 or something and then increase kV until it gets there.
     //Tune P. Send a ball through the launcher and increase P until it doesn't overshoot past the target velocity in the recovery phase. Keep increasing though because unless you see overshoot you're fine.
 
-    private static final double[] xs = {44, 72, 100};
-    private static final double[] ys = {10, 38, 66};
+
+    private static final double[] xs = {0, 15, 30, 45, 60};
+    private static final double[] ys = {34, 44, 54};
     private static final double[][] velocities = {
-            {1200, 1200, 1275},
-            {1275, 1275, 1350},
-            {1325, 1360, 1400}
+            {1510, 1550, 1590},
+            {1550, 1560, 1600},
+            {1590, 1610, 1620},
+            {1620, 1640, 1670},
+            {1720, 1740, 1760},
     };
     public static final Interpolation2D velocityInterpolation = new BilinearInterpolation(xs, ys, velocities);
+
+    public double xDistance = 0;
+    public double yDistance = 0;
     public Flywheel(HardwareMap hardwareMap) {
         shooter = hardwareMap.get(DcMotorEx.class, "shooter");
         shooter.setDirection(DcMotor.Direction.REVERSE);
@@ -44,8 +51,8 @@ public class Flywheel {
 
 
     public void forPose(Pose current, Pose target/*, boolean close*/) {
-        double xDistance = Math.abs(target.x()-current.x());
-        double yDistance = Math.abs(target.y()-current.y());
+        xDistance = Math.abs(target.x()-current.x());
+        yDistance = Math.abs(target.y()-current.y());
 
         //if (close)
             setTarget(velocityInterpolation.interpolate(xDistance, yDistance));
@@ -58,10 +65,10 @@ public class Flywheel {
     public void setTarget(double velocity) {
         targetSpeed = velocity;
     }
-    public void adjustTarget(double boost){targetSpeed += boost;}
+    public void adjustTarget(double boost){adjustSpeed += boost;}
 
     public double getTarget() {
-        return targetSpeed;
+        return targetSpeed + adjustSpeed;
     }
 
     public boolean atTarget() {

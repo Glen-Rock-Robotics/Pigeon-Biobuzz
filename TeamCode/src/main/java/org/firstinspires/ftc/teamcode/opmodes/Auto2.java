@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodes;
+/*package org.firstinspires.ftc.teamcode.opmodes;
 
 import static com.pedropathing.ivy.commands.Commands.instant;
 import static com.pedropathing.ivy.commands.Commands.waitMs;
@@ -139,3 +139,4 @@ public class Auto2 extends CommandOpMode {
         robot.startPose = robot.drivetrain.follower.pose();
     }
 }
+*/
