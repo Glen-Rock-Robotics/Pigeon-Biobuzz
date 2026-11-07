@@ -17,6 +17,8 @@ public class hive2TipComfy {
 
     public static final PoseFactory poseFactory = PoseFactory.degrees();
 
+    /*
+
     public static final Pose startPose = poseFactory.of(7.5, 15, 270);
     public static final Pose shootPreloads = poseFactory.of(18, 18, 220);
 
@@ -26,6 +28,35 @@ public class hive2TipComfy {
     private static final Pose alignIntakeFour = poseFactory.of(8.5, 16, 270);
     private static final Pose intakeFour = poseFactory.of(8.5, 11.5, 270);
     public static final Pose shootFour = poseFactory.of(54, 120, 100);
+
+
+     */
+
+    public static final Pose startPose = poseFactory.of(54, 9, 270);
+    public static final Pose alignFour = poseFactory.of(32, 24, 180);
+    public static final Pose intakeFour = poseFactory.of(10, 8, -178.6842);
+    public static final Pose point2Control1 = poseFactory.of(28.9902, 8.4362, 0);
+    public static final Pose reverseIntakeFour = poseFactory.of(20, 8, 180);
+    public static final Pose reIntakeFour = poseFactory.of(9.5, 8, 180);
+
+
+    public static Path aligningFour() {
+        return Paths.line(startPose, alignFour).linear(startPose, alignFour);
+    }
+
+    public static Path intakingFour() {
+        return Paths.curve(alignFour, point2Control1, intakeFour).tangent();
+    }
+
+    public static Path backingUp() {
+        return Paths.line(intakeFour, reverseIntakeFour).reverseTangent();
+    }
+
+    public static Path reIntakingFour() {
+        return Paths.line(reverseIntakeFour, reIntakeFour).tangent();
+    }
+    public static final Pose shootFour = poseFactory.of(54, 120, 100);
+
     public static final Pose point3Control1 = poseFactory.of(33.809, 44.5813, 0);
     public static final Pose point3Control2 = poseFactory.of(10.1072, 115.5654, 0);
     private static final Pose point3Segment1Heading = poseFactory.of(48, 120, 190);
@@ -38,6 +69,7 @@ public class hive2TipComfy {
     public static final Pose shootAndPark = poseFactory.of(13, 120, 145);
     public static final Pose point7Control1 = poseFactory.of(52.8329, 87.0083, 0);
 
+    /*
     public static Path shootingPreloads() {
         return Paths.line(startPose, shootPreloads).linear(startPose, shootPreloads);
     }
@@ -59,9 +91,9 @@ public class hive2TipComfy {
     public static Path reverseIntakingFour() {
         return Paths.line(intakeFour, alignIntakeFour).linear(alignIntakeFour, intakeFour, .2);
     }
-
+    */
     public static Path shootingFour() {
-        return Paths.curve(intakeFour, point3Control1, point3Control2, shootFour).heading(Interpolator.piecewise().until(0.1127, Interpolator.constant(point3Segment1Heading)).until(0.8653, Interpolator.tangent).until(1, Interpolator.linear(point3Segment3Start, point3Segment3End)));
+        return Paths.curve(reIntakeFour, point3Control1, point3Control2, shootFour).heading(Interpolator.piecewise().until(0.1127, Interpolator.constant(point3Segment1Heading)).until(0.8653, Interpolator.tangent).until(1, Interpolator.linear(point3Segment3Start, point3Segment3End)));
     }
 
     public static Path intakingFlower1() {

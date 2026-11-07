@@ -41,8 +41,7 @@ public class Auto extends CommandOpMode {
 //                }),
                 sequential(
                         parallel(
-                                follow(robot.drivetrain.follower, shootingPreloads()).with(
-                                ),
+                                //follow(robot.drivetrain.follower, shootingPreloads()).with(),
                                 instant(() -> robot.flywheel.setTarget(1590)),
                                 instant(robot.flywheel::activate)
                         ),
@@ -54,11 +53,11 @@ public class Auto extends CommandOpMode {
                         robot.unshoot(),
                         robot.intake.start(),
                         follow(robot.drivetrain.follower, aligningFour()),
-                        follow(robot.drivetrain.follower, angleIntakingFour()).until(() -> robot.drivetrain.follower.completion() > 0.95),
-                        follow(robot.drivetrain.follower, reverseResetFour()),
                         follow(robot.drivetrain.follower, intakingFour()).until(() -> robot.drivetrain.follower.completion() > 0.95),
-                        follow(robot.drivetrain.follower, reverseIntakingFour()),
-                        follow(robot.drivetrain.follower, intakingFour()).until(() -> robot.drivetrain.follower.completion() > 0.95),
+                        follow(robot.drivetrain.follower, backingUp()),
+                        follow(robot.drivetrain.follower, reIntakingFour()).until(() -> robot.drivetrain.follower.completion() > 0.95),
+                        follow(robot.drivetrain.follower, backingUp()),
+                        follow(robot.drivetrain.follower, reIntakingFour()).until(() -> robot.drivetrain.follower.completion() > 0.95),
                         //insert timeout and refresh path to move back and forth
                         waitMs(1500),
                         robot.intake.stop(),

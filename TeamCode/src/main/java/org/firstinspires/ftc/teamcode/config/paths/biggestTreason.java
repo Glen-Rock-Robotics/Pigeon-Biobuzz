@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.config.paths;
+/*package org.firstinspires.ftc.teamcode.config.paths;
 
 import static com.pedropathing.api.Paths.line;
 
@@ -73,3 +73,4 @@ public class biggestTreason {
     }
 }
 
+*/

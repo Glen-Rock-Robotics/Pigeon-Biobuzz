@@ -1,3 +1,5 @@
+/*
+
 package org.firstinspires.ftc.teamcode.config.paths;
 
 import com.pedropathing.api.Paths;
@@ -71,3 +73,4 @@ public class hive3TipYikes {
 
 
 }
+*/
