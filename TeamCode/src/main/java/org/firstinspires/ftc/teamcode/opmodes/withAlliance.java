@@ -40,11 +40,12 @@ public class withAlliance extends CommandOpMode {
 //                    telemetry.update();
 //                }),
                 sequential(
+                        waitMs(5000),
                         parallel(
                                 instant(() -> robot.flywheel.setTarget(1590)),
                                 instant(robot.flywheel::activate)
                         ),
-                        waitMs(7000),
+                        waitMs(2000),
                         parallel(
                                 instant(robot.intake::unblock),
                                 robot.intake.start()
@@ -54,7 +55,8 @@ public class withAlliance extends CommandOpMode {
                         robot.intake.start(),
                         follow(robot.drivetrain.follower, aligningFlower1()),
                         instant(() -> robot.intake.flower()),
-                        follow(robot.drivetrain.follower, intakingFlower1()).until(() -> robot.drivetrain.follower.completion() > 0.95),
+                        waitMs(2000),
+                        follow(robot.drivetrain.follower, intakingFlower1()).until(() -> robot.drivetrain.follower.completion() > 0.8),
                         parallel(
                                 instant(() -> robot.flywheel.setTarget(1590)),
                                 instant(robot.flywheel::activate)
@@ -67,7 +69,7 @@ public class withAlliance extends CommandOpMode {
                         robot.unshoot(),
                         robot.intake.start(),
                         follow(robot.drivetrain.follower, aligningFlower2()),
-                        follow(robot.drivetrain.follower, intakingFlower2()).until(() -> robot.drivetrain.follower.completion() > 0.95),
+                        follow(robot.drivetrain.follower, intakingFlower2()).until(() -> robot.drivetrain.follower.completion() > 0.8),
                         waitMs(1500),
                         follow(robot.drivetrain.follower, shootingFlower2()),
                         parallel(

@@ -62,10 +62,12 @@ public class hive2TipComfy {
     private static final Pose point3Segment1Heading = poseFactory.of(48, 120, 190);
     private static final Pose point3Segment3Start = poseFactory.of(48, 120, 50.0403);
     private static final Pose point3Segment3End = poseFactory.of(48, 120, 100);
-    public static final Pose intakeFlower1 = poseFactory.of(55, 128, 100);
+    public static final Pose intakeFlower1 = poseFactory.of(48, 127, 100);
+
+    private static final Pose controlPoint67 = poseFactory.of(18, 95, 0);
     public static final Pose positionFlower2 = poseFactory.of(21, 48, 180);
-    public static final Pose intakeFlower2 = poseFactory.of(15.5, 48, 180);
-    public static final Pose shootFlower2 = poseFactory.of(46.45, 119.25, 110);
+    public static final Pose intakeFlower2 = poseFactory.of(15, 48, 180);
+    public static final Pose shootFlower2 = poseFactory.of(38, 130, 120);
     public static final Pose shootAndPark = poseFactory.of(13, 120, 145);
     public static final Pose point7Control1 = poseFactory.of(52.8329, 87.0083, 0);
 
@@ -101,7 +103,7 @@ public class hive2TipComfy {
     }
 
     public static Path aligningFlower2() {
-        return Paths.line(intakeFlower1, positionFlower2).linear(intakeFlower1, positionFlower2);
+        return Paths.curve(intakeFlower1, controlPoint67, positionFlower2).linear(intakeFlower1, positionFlower2);
     }
 
     public static Path intakingFlower2() {

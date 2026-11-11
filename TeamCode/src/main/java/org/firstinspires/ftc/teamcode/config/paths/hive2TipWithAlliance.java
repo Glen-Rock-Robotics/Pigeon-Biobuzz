@@ -10,7 +10,7 @@ public class hive2TipWithAlliance {
     private static final PoseFactory poseFactory = PoseFactory.degrees();
 
     public static final Pose startPose = poseFactory.of(63, 132, 90);
-    public static final Pose alignFlower = poseFactory.of(52, 120, 90);
+    public static final Pose alignFlower = poseFactory.of(52, 115, 90);
     public static final Pose intakeFlower = poseFactory.of(48, 128, 100);
     public static final Pose alignFlower2 = poseFactory.of(17, 48, 180);
     public static final Pose intakeFlower2 = poseFactory.of(12, 48, 180);

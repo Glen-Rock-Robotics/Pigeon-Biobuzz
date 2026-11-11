@@ -26,7 +26,12 @@ public class Intake {
     }
 
     public void flower(){
-        flower.setPosition(0.05);
+        flower.setPosition(0.07);
+        flowerEngaged = true;
+    }
+
+    public void upperflower(){
+        flower.setPosition(0.1);
         flowerEngaged = true;
     }
 

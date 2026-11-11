@@ -41,14 +41,13 @@ public class oneTipAuto extends CommandOpMode {
 //                }),
                 sequential(
                         parallel(
-                                instant(() -> robot.flywheel.setTarget(1590)),
+                                instant(() -> robot.flywheel.setTarget(1580)),
                                 instant(robot.flywheel::activate)
                         ),
-                        parallel(
-                                instant(robot.intake::unblock),
-                                robot.intake.start()
-                        ),
+                        instant(robot.intake::unblock),
                         waitMs(1000),
+                        robot.intake.start(),
+                        waitMs(3000),
                         robot.unshoot(),
                         follow(robot.drivetrain.follower, alignToPush()),
                         follow(robot.drivetrain.follower, pushing()).until(() -> robot.drivetrain.follower.completion() > 0.95),

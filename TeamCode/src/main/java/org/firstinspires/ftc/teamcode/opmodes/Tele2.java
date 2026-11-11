@@ -59,8 +59,8 @@ public class Tele2 extends CommandOpMode {
         if(gamepad1.triangleWasPressed())robot.intake.block();
         if(gamepad1.crossWasPressed())robot.intake.unblock();
 
-        if(gamepad1.squareWasPressed())robot.intake.block();
-        if(gamepad1.circleWasPressed())robot.intake.unblock();
+        if(gamepad1.squareWasPressed())robot.intake.flower();
+        if(gamepad1.circleWasPressed())robot.intake.unflower();
 
         if(gamepad1.dpadUpWasPressed()) robot.flywheel.adjustTarget(10);
         if(gamepad1.dpadDownWasPressed()) robot.flywheel.adjustTarget(-10);
@@ -125,8 +125,7 @@ public class Tele2 extends CommandOpMode {
             robot.flywheel.forPose(robot.drivetrain.follower.pose(), new Pose(58, 60));
         }
 
-        telemetry.addData("targetdisplacement", robot.flywheel.xDistance);
-        telemetry.addData("targetdisplacementy", robot.flywheel.yDistance);
+        telemetry.addData("speed", robot.drivetrain.follower.velocity().linSpeed());
 
     }
 
