@@ -61,9 +61,9 @@ public class Tele2 extends CommandOpMode {
 
         if(gamepad1.squareWasPressed())robot.intake.flower();
         if(gamepad1.circleWasPressed())robot.intake.unflower();
-
-        if(gamepad1.dpadUpWasPressed()) robot.flywheel.adjustTarget(10);
-        if(gamepad1.dpadDownWasPressed()) robot.flywheel.adjustTarget(-10);
+//
+        if(gamepad2.dpadUpWasPressed()) robot.flywheel.adjustTarget(10);
+        if(gamepad2.dpadDownWasPressed()) robot.flywheel.adjustTarget(-10);
 
         //robot.flywheel.forPose(robot.follower.pose(), robot.shootTarget);
 
@@ -114,10 +114,19 @@ public class Tele2 extends CommandOpMode {
             robot.flywheel.deactivate();
         }
 
+        if(gamepad1.dpadUpWasPressed()) robot.flywheel.kP += 0.0001;//robot.flywheel.adjustTarget(100);
+        if(gamepad1.dpadDownWasPressed()) robot.flywheel.kP -= 0.0001;//robot.flywheel.adjustTarget(-100);
+
+        if(gamepad1.dpadRightWasPressed()) robot.flywheel.kV += 0.0001;//robot.flywheel.adjustTarget(100);
+        if(gamepad1.dpadLeftWasPressed()) robot.flywheel.kV -= 0.0001;
+
         telemetry.addData("shooter speed", robot.flywheel.getVelocity());
         telemetry.addData("shooter target", robot.flywheel.getTarget());
         telemetry.addData("pose", robot.drivetrain.follower.pose());
         telemetry.addData("targetpose", Math.toDegrees(robot.drivetrain.headingTargetRadians));
+        telemetry.addData("kp", robot.flywheel.kP);
+        telemetry.addData("ks", robot.flywheel.kS);
+        telemetry.addData("kv", robot.flywheel.kV);
 
         if(robot.drivetrain.follower.pose().y() > 72){
             robot.flywheel.forPose(robot.drivetrain.follower.pose(), new Pose(58, 80));
