@@ -1,0 +1,120 @@
+package org.firstinspires.ftc.teamcode.opmodes;
+
+import static com.pedropathing.ivy.pedro.PedroCommands.hold;
+
+import com.pedropathing.math.Pose;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
+import org.firstinspires.ftc.teamcode.config.CommandOpMode;
+import org.firstinspires.ftc.teamcode.config.robot.Robot;
+
+@TeleOp
+public class TeleSolo extends CommandOpMode {
+
+    Robot robot;
+
+    @Override
+    public void init() {
+        robot = new Robot(hardwareMap);
+        robot.drivetrain.follower.setPose(robot.startPose);
+        //robot.drivetrain.follower.
+
+        //multipleTelemetry = new MultipleTelemetry(FtcDashboard.getInstance().getTelemetry(), telemetry);
+
+        robot.intake.block();
+    }
+
+    @Override
+    public void init_loop() {
+        if (gamepad1.xWasPressed()) {
+        }
+
+    }
+
+    @Override
+    public void start() {
+
+    }
+
+    @Override
+    public void loop() {
+        robot.periodic();
+
+
+        if(gamepad1.leftBumperWasPressed()){
+            if(robot.intake.flowerEngaged){
+                robot.intake.unflower();
+            }else{
+                robot.intake.flower();
+            }
+        }
+
+
+        if(gamepad1.rightTriggerWasPressed()) robot.intake.start().schedule();
+        if(gamepad1.rightTriggerWasReleased()) robot.intake.stop().schedule();
+
+        if(gamepad1.leftTriggerWasPressed()) robot.intake.reverse().schedule();
+        if(gamepad1.leftTriggerWasReleased()) robot.intake.stop().schedule();
+
+        if(gamepad1.triangleWasPressed())robot.intake.block();
+        if(gamepad1.crossWasPressed())robot.intake.unblock();
+
+        if(gamepad1.squareWasPressed())robot.intake.flower();
+        if(gamepad1.circleWasPressed())robot.intake.unflower();
+//
+        if(gamepad1.dpadUpWasPressed()) robot.flywheel.adjustTarget(10);
+        if(gamepad1.dpadDownWasPressed()) robot.flywheel.adjustTarget(-10);
+
+
+        //aim and shoot
+        if(gamepad1.rightBumperWasPressed()){
+            robot.drivetrain.follower.stop();
+            hold(robot.drivetrain.follower, new Pose(robot.drivetrain.follower.pose().x(), robot.drivetrain.follower.pose().y(), robot.drivetrain.headingTargetRadians)).schedule();
+            robot.flywheel.activate();
+
+        }else if(!gamepad1.right_bumper){
+            robot.drivetrain.follower.manual(-gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x);
+        }
+
+        if(gamepad1.rightBumperWasReleased()){
+            robot.drivetrain.follower.stop();
+            robot.intake.block();
+            robot.flywheel.deactivate();
+        }
+
+        if(gamepad1.right_bumper && robot.flywheel.getVelocity() > robot.flywheel.getTarget() - 10){
+            robot.intake.unblock();
+        }
+
+
+        //relocalize
+        if(gamepad1.shareWasPressed()){
+            robot.drivetrain.follower.setPose(new Pose(8, 64, Math.toRadians(0)));//(new Pose(9, 7.5, Math.toRadians(180)));
+            gamepad1.rumbleBlips(2);
+            gamepad2.rumbleBlips(2);
+        }
+
+        telemetry.addData("shooter speed", robot.flywheel.getVelocity());
+        telemetry.addData("shooter target", robot.flywheel.getTarget());
+        telemetry.addData("pose", robot.drivetrain.follower.pose());
+        telemetry.addData("targetpose", Math.toDegrees(robot.drivetrain.headingTargetRadians));
+
+        if(robot.drivetrain.follower.pose().y() > 72){
+            robot.flywheel.forPose(robot.drivetrain.follower.pose(), new Pose(58, 80));
+        }else{
+            robot.flywheel.forPose(robot.drivetrain.follower.pose(), new Pose(58, 60));
+        }
+
+        telemetry.addData("speed", robot.drivetrain.follower.velocity().linSpeed());
+
+    }
+
+
+    @Override
+    public void stop() {
+        robot.startPose = robot.drivetrain.follower.pose();
+    }
+
+
+
+}
