@@ -127,6 +127,7 @@ public class Tele2 extends CommandOpMode {
         telemetry.addData("kp", robot.flywheel.kP);
         telemetry.addData("ks", robot.flywheel.kS);
         telemetry.addData("kv", robot.flywheel.kV);
+        telemetry.addData("DISTANCE FROM GOAL", robot.drivetrain.distance());
 
         if(robot.drivetrain.follower.pose().y() > 72){
             robot.flywheel.forPose(robot.drivetrain.follower.pose(), new Pose(58, 80));

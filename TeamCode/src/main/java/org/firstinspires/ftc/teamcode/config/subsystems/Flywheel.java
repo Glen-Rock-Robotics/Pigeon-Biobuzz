@@ -4,6 +4,9 @@ import com.pedropathing.math.Pose;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import java.util.Map;
+import java.util.NavigableMap;
+import java.util.TreeMap;
 
 import smile.interpolation.BilinearInterpolation; //I CAN SMILE NOW :DDDDDDDDD
 import smile.interpolation.Interpolation2D;
@@ -32,6 +35,32 @@ public class Flywheel {
             {1720, 1740, 1760},
     };
     public static final Interpolation2D velocityInterpolation = new BilinearInterpolation(xs, ys, velocities);
+
+    public static double getFlyWheelSpeed(double distance){
+        double [][] table = {
+                {0, 1200.0},
+                {20, 1400.0},
+                {40, 1600.0},
+                {60, 1800.0},
+                {100000, 1800.0}
+        };
+        for(int i=0; i < table.length - 1; i++){
+            double x1 = table[i][0];
+            double y1 = table[i][1];
+
+            double x2 = table[i+1][0];
+            double y2 = table[i+1][1];
+
+            if(distance >= x1 && distance <= x2){
+                return y1 + (distance -x1) * (y2 - y1)/(x2-x1);
+            }
+        }
+        return -1;
+
+
+    }
+
+
 
     public double xDistance = 0;
     public double yDistance = 0;

@@ -67,10 +67,11 @@ public class Drivetrain {
                 } else {
                     angleOne = Math.toDegrees(Math.atan2(60 - y, 48 - x)) + 180;
                 }
+            }else{
+                angleOne = Math.toDegrees(Math.atan2(52 - y, 48 - x)) + 180;
+                angleTwo = Math.toDegrees(Math.atan2(52 - y, 68 - x)) + 180;
+                angleOne = (angleOne + angleTwo) * .5;
             }
-            angleOne = Math.toDegrees(Math.atan2(52 - y, 48 - x)) + 180;
-            angleTwo = Math.toDegrees(Math.atan2(52 - y, 68 - x)) + 180;
-            angleOne = (angleOne + angleTwo) * .5;
         }else {
             if (x > 48 && x < 68 && y < 132) {
                 if (x < 55) {
@@ -78,10 +79,11 @@ public class Drivetrain {
                 } else {
                     angleOne = Math.toDegrees(Math.atan2(80 - y, 48 - x)) + 180;
                 }
+            }else {
+                angleOne = Math.toDegrees(Math.atan2(88 - y, 48 - x)) + 180;
+                angleTwo = Math.toDegrees(Math.atan2(88 - y, 68 - x)) + 180;
+                angleOne = (angleOne + angleTwo) * .5;
             }
-            angleOne = Math.toDegrees(Math.atan2(88 - y, 48 - x)) + 180;
-            angleTwo = Math.toDegrees(Math.atan2(88 - y, 68 - x)) + 180;
-            angleOne = (angleOne + angleTwo) * .5;
         }
 
 
@@ -140,32 +142,48 @@ public class Drivetrain {
 
         double x = follower.pose().x();
         double y = follower.pose().y();
+
         double botAngle = Math.toDegrees(follower.pose().heading());
 
-        double aimPosX;
-        double aimPosY;
-        if(y < 72) {
-            if (x > 48 && x < 67) {
-                aimPosX = x;
+        double aimPosX = 0;
+        double aimPosY = 0;
+        double angleOne;
+        double angleTwo;
+
+        if (y < 72) {
+            if (x > 48 && x < 68 && y > 12) {
+                if (x < 55) {
+                    aimPosX = 67;
+                    aimPosY = 60;
+                } else {
+                    aimPosX = 48;
+                    aimPosY = 60;
+                }
+            } else {
+                angleOne = Math.toDegrees(Math.atan2(52 - y, 48 - x)) + 180;
+                angleTwo = Math.toDegrees(Math.atan2(52 - y, 68 - x)) + 180;
+                angleOne = (angleOne + angleTwo) * .5;
+
                 aimPosY = 60;
-            } else if (x < 48) {
-                aimPosX = 67;
-                aimPosY = 50 + 5 / 24 * x;
-            } else {
-                aimPosX = 48;
-                aimPosY = 67 + (77 / 48) * x;
+                aimPosX = x + (aimPosY - y)/angleOne;
             }
-        }else{
-            if (x > 48 && x < 67) {
-                aimPosX = x;
-                aimPosY = 80;
-            } else if (x < 48) {
-                aimPosX = 67;
-                aimPosY = 90 - 5 / 24 * x;
-            } else {
-                aimPosX = 48;
-                aimPosY = 90 - (77 / 48) * x;
+
+        }else {
+            if (x > 48 && x < 68 && y < 132) {
+                if (x < 55) {
+                    aimPosX = 67;
+                    aimPosY = 80;
+                } else {
+                    aimPosX = 48;
+                    aimPosY = 80;
+                }
             }
+            angleOne = Math.toDegrees(Math.atan2(88 - y, 48 - x)) + 180;
+            angleTwo = Math.toDegrees(Math.atan2(88 - y, 68 - x)) + 180;
+            angleOne = (angleOne + angleTwo) * .5;
+
+            aimPosY = 80;
+            aimPosX = x + (aimPosY - y)/angleOne;
         }
 
        return Math.pow(x - aimPosX, 2) + Math.pow(y - aimPosY, 2);
